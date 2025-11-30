@@ -1,0 +1,270 @@
+﻿@model PagedList.IPagedList<GundamZoneProject.Models.EntityFrameWork.Order>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+}
+<link href="~/Assets/AdminCss/Order/index-order.css" rel="stylesheet" />
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/order" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+
+<section class="content">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+            <div class="card-tools">
+                <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xoá tất cả</a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="SelectAll" /></th>
+                        <th>#</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên Khách hàng</th>
+                        <th>Phone</th>
+                        <th>Tiền</th>
+                        <th>Phương thức thanh toán</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
+                        foreach (var item in Model)
+                        {
+                            <tr id="trow_@item.Id">
+                                <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                                <td>@i</td>
+                                <td>@item.Code</td>
+                                <td>@item.CustomerName</td>
+                                <td>@item.Phone</td>
+                                <td>@GundamZoneProject.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
+                                <td>@(item.TypePayment == 1 ? "COD" : "Chuyển khoản")</td>
+
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case 1:
+                                            <span class="status-badge status-1">Chờ xử lý</span>;
+                                            break;
+                                        case 2:
+                                            <span class="status-badge status-2">Đã thanh toán</span>;
+                                            break;
+                                        case 3:
+                                            <span class="status-badge status-3">Chưa thanh toán</span>;
+                                            break;
+                                        case 4:
+                                            <span class="status-badge status-4">Đã hủy</span>;
+                                            break;
+                                    }
+                                </td>
+
+
+                                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                                <td>
+                                    <a href="/admin/order/view/@item.Id" class="btn btn-sm btn-primary">Xem</a>
+                                    @*<a href="#" class="btn btn-sm btn-warning btnCapNhat"
+            data-id="@item.Id" data-status="@item.Status">Cập nhật</a>*@
+
+                                    <a href="#" class="btn btn-sm btn-danger btnDelete"
+                                       data-id="@item.Id">Xóa</a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align:right;">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- MODAL CẬP NHẬT TRẠNG THÁI -->
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cập nhật trạng thái</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="txtOrderId" />
+                <div class="form-group">
+                    <label>Trạng thái</label>
+                    <select class="form-control" id="ddTrangThai">
+                        <option value="1">Chờ xử lý</option>
+                        <option value="2">Đã thanh toán</option>
+                        <option value="3">Chưa thanh toán</option>
+                        <option value="4">Đã hủy</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-between">
+                <button class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button class="btn btn-primary" id="btnLuu">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            // ======================= CẬP NHẬT TRẠNG THÁI =========================
+            $('body').on('click', '.btnCapNhat', function () {
+                var id = $(this).data("id");
+                var status = $(this).data("status");
+
+                $('#txtOrderId').val(id);
+                $('#ddTrangThai').val(status);
+                $('#modal-default').modal('show');
+            });
+
+            $('body').on('click', '#btnLuu', function () {
+                $.post('/admin/order/UpdateTT',
+                    { id: $('#txtOrderId').val(), trangthai: $('#ddTrangThai').val() },
+                    function (res) {
+                        if (res.Success) location.reload();
+                    });
+            });
+
+
+            // ======================= XOÁ 1 ĐƠN =========================
+            $('body').on('click', '.btnDelete', function (e) {
+                e.preventDefault();
+                var id = $(this).data("id");
+
+                Swal.fire({
+                    title: "Bạn có chắc chắn?",
+                    text: "Bạn có muốn xoá đơn hàng này không?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Xoá",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.post('/admin/order/Delete', { id: id }, function (res) {
+                            if (res.success || res.Success) {
+
+                                $('#trow_' + id).remove();
+
+                                Swal.fire({
+                                    title: "Đã xoá!",
+                                    text: "Đơn hàng đã được xoá.",
+                                    icon: "success",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            }
+                            else {
+                                Swal.fire("Lỗi!", "Không thể xóa đơn hàng.", "error");
+                            }
+                        });
+
+                    }
+
+                });
+
+            });
+
+
+
+            // ======================= CHỌN TẤT CẢ =========================
+            $("#SelectAll").change(function () {
+                $(".cbkItem").prop("checked", this.checked);
+            });
+
+
+
+            // ======================= XOÁ TẤT CẢ =========================
+            $("#BtnDeleteAll").click(function (e) {
+                e.preventDefault();
+
+                var ids = [];
+                $(".cbkItem:checked").each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length === 0) {
+                    Swal.fire("Chưa chọn!", "Bạn chưa chọn đơn nào.", "warning");
+                    return;
+                }
+
+                Swal.fire({
+                    title: "Xóa tất cả?",
+                    text: "Bạn có muốn xoá " + ids.length + " đơn hàng đã chọn?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Xoá tất cả",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+
+                        $.post('/admin/order/DeleteAll', { ids: ids.join(',') }, function (res) {
+                            if (res.success || res.Success) {
+
+                                // Xoá từng row như News
+                                ids.forEach(id => {
+                                    $('#trow_' + id).remove();
+                                });
+
+                                Swal.fire({
+                                    title: "Đã xoá!",
+                                    text: "Các đơn hàng đã được xoá.",
+                                    icon: "success",
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                            }
+                            else {
+                                Swal.fire("Lỗi!", "Không thể xoá các đơn hàng đã chọn.", "error");
+                            }
+                        });
+
+                    }
+
+                });
+
+            });
+
+        });
+    </script>
+}

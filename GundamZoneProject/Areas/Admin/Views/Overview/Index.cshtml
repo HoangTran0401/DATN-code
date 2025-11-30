@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Tổng quan";
+}
+
+<link href="~/Assets/AdminCss/Overview.css" rel="stylesheet" />
+
+<div class="container py-4">
+
+    <h2 class="mb-4">Tổng quan</h2>
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="text-muted">Số lượng bán (Tháng này)</div>
+                <h3>@ViewBag.SoldCount <small style="color:#555;">sản phẩm</small></h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="text-muted">Đơn hàng (Tháng này)</div>
+                <h3>@ViewBag.OrderCount <small style="color:#555;">đơn</small></h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="stat-box">
+                <div class="text-muted">Doanh thu (Tháng này)</div>
+                <h3 class="price">@GundamZoneProject.Common.Common.FormatNumber(ViewBag.Revenue, 0) đ</h3>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <!-- Sản phẩm bán chạy -->
+        <div class="col-md-6">
+            <div class="panel-box">
+                <h5>Sản phẩm bán chạy</h5>
+                <table class="table align-middle mt-3">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Đã bán</th>
+                            <th>Tổng tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.BestSellers)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="@item.Image" />
+                                        @item.Title
+                                    </div>
+                                </td>
+
+                                <!-- Đã bán -->
+                                <td>@item.Quantity</td>
+
+                                <!-- Tổng tiền = Giá × Số lượng -->
+                                <td class="price">
+                                    @GundamZoneProject.Common.Common.FormatNumber(item.Price * item.Quantity, 0) đ
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+       
+        <!-- Sản phẩm bán chậm -->
+        <div class="col-md-6">
+            <div class="panel-box">
+                <h5>Sản phẩm bán chậm</h5>
+                <table class="table align-middle mt-3">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Đã bán</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.SlowSeller)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <img src="@item.Image" />
+                                        @item.Title
+                                    </div>
+                                </td>
+                                <td class="price">@GundamZoneProject.Common.Common.FormatNumber(item.Price, 0) đ</td>
+                                <td>@item.Quantity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

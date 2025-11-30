@@ -1,0 +1,99 @@
+﻿@model GundamZoneProject.Models.EntityFrameWork.Order
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+
+<link href="~/Assets/AdminCss/ViewOrder.css" rel="stylesheet" />
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><i class="fas fa-file-invoice"></i> Chi tiết đơn hàng</h4>
+        <span><strong>ID:</strong> @Model.Code</span>
+    </div>
+
+    <div class="row">
+
+        <!-- Thông tin đơn hàng -->
+        <div class="col-md-4">
+            <div class="order-box">
+                <div class="order-title">Thông tin đơn hàng</div>
+
+                <div class="label-value">
+                    <p><strong>Người đặt:</strong> @Model.CustomerName</p>
+                    <p><strong>Số điện thoại:</strong> @Model.Phone</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Địa chỉ:</strong> @Model.Address</p>
+                    <p><strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</p>
+
+                    <p>
+                        <strong>Tình trạng đơn hàng:</strong>
+                        @if (Model.Status == 1)
+                        {<span class="status-badge status-wait">Chờ xử lý</span> }
+                        else if (Model.Status == 2)
+                        { <span class="status-badge status-done">Đã thanh toán</span> }
+                        else if (Model.Status == 3)
+                        { <span class="status-badge status-wait">Chưa thanh toán</span> }
+                        else
+                        { <span class="status-badge status-cancel">Đã hủy</span>}
+                    </p>
+
+                    <p><strong>Phương thức thanh toán:</strong> @(Model.TypePayment == 1 ? "COD" : "Chuyển khoản")</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danh sách sản phẩm -->
+        <div class="col-md-8">
+            <div class="order-box">
+                <div class="order-title">Sản phẩm</div>
+
+                <table class="table table-bordered product-table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th class="text-center">Đơn giá</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-right">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderDetails)
+                        {
+                            var img = item.Product.ProductImage.FirstOrDefault(x => x.IsDefault)?.Image ?? "/Content/no-image.png";
+                            <tr>
+                                <td style="width:45%;">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@img" style="width:60px;height:60px;border-radius:6px;margin-right:12px;" />
+                                        <div>
+                                            <div style="font-weight:600;">@item.Product.Title</div>
+                                            <div style="font-size:13px;color:#555;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                                @Html.Raw(item.Product.Description)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">@GundamZoneProject.Common.Common.FormatNumber(item.Price, 0) đ</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-right">@GundamZoneProject.Common.Common.FormatNumber(item.Quantity * item.Price, 0) đ</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="total-box">
+                    Tổng tiền: @GundamZoneProject.Common.Common.FormatNumber(Model.TotalAmount, 0) đ
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="text-right mt-3">
+        <a href="/admin/order" class="btn btn-secondary">Đóng</a>
+        <a href="/admin/order/update/@Model.Id" class="btn btn-primary">Cập nhật</a>
+    </div>
+
+</div>

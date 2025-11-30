@@ -1,0 +1,104 @@
+﻿/* ============================
+   TABLE PREMIUM STYLE
+============================ */
+.card {
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+    border: none;
+}
+
+.card-header {
+    padding: 18px 22px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    border-radius: 14px 14px 0 0 !important;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.table {
+    background: #fff;
+}
+
+    .table thead tr {
+        background: #f5f7fa;
+        border-bottom: 2px solid #e4e6ef;
+    }
+
+    .table thead th {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 14px 10px;
+        color: #444;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+        padding: 14px 10px;
+        font-size: 14px;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #fafafa;
+}
+
+/* Hình ảnh sản phẩm */
+.table img {
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+/* Ô nhập số lượng */
+.table input[type=number] {
+    border-radius: 6px;
+    border: 1px solid #d6d6d6;
+    padding: 6px;
+    font-size: 14px;
+    transition: 0.25s;
+}
+
+    .table input[type=number]:focus {
+        border-color: #3c8dbc;
+        box-shadow: 0 0 0 2px rgba(60,141,188,0.15);
+    }
+
+/* Nút nhập hàng */
+.btn-success {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 6px 14px;
+}
+
+/* Pagination */
+.pagination > li > a,
+.pagination > li > span {
+    border-radius: 6px !important;
+    margin: 0 3px;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    color: #444;
+}
+
+.pagination > .active > a {
+    background-color: #3c8dbc !important;
+    border-color: #3c8dbc !important;
+    color: #fff !important;
+}
+
+/* Breadcrumb + page title */
+.content-header h1 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.breadcrumb {
+    background: transparent;
+}
+
+.breadcrumb-item a {
+    color: #3c8dbc;
+    font-weight: 500;
+}

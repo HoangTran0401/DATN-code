@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Liên hệ";
+}
+
+<!-- FONT TIẾNG VIỆT -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
+
+<style>
+    /* Font chữ – KHÔNG đụng icon */
+    body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, li {
+        font-family: 'Be Vietnam Pro', sans-serif !important;
+        color: #222; /* chữ đen */
+    }
+
+    .contact-wrapper {
+        margin-top: 150px;
+        background: #fff; /* NỀN TRẮNG */
+        padding: 40px 0;
+    }
+
+    /* Layout */
+    .contact-container {
+        max-width: 1200px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+        padding: 0 40px;
+    }
+
+    /* Bên trái */
+    .contact-left {
+        width: 45%;
+    }
+
+        .contact-left h2 {
+            font-size: 40px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .contact-left p {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+    .contact-info-title {
+        font-size: 22px;
+        font-weight: 800;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        color: #111;
+    }
+
+    /* Item */
+    .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px;
+        font-size: 18px;
+        color: #222;
+    }
+
+        .contact-item i {
+            color: #ff3b3b;
+            margin-right: 12px;
+            font-size: 22px;
+        }
+
+    /* Map */
+    .contact-map {
+        width: 55%;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+    }
+
+    /* Mobile */
+    @@media (max-width: 992px) {
+        .contact-container {
+            flex-direction: column;
+        }
+
+        .contact-left,
+        .contact-map {
+            width: 100%;
+        }
+
+        iframe {
+            height: 350px;
+        }
+    }
+</style>
+
+
+<div class="contact-wrapper">
+
+    <div class="contact-container">
+
+        <!-- LEFT -->
+        <div class="contact-left">
+            <h2>LIÊN HỆ</h2>
+
+            <p>
+                <strong>GUNDAM ZONE</strong><br>
+                Chuyên bán mô hình Gundam giá rẻ nhất, chính hãng Bandai.
+                Giao hàng toàn quốc. Tư vấn nhiệt tình, uy tín, hỗ trợ đặt hàng Mỹ – Nhật.
+            </p>
+
+            <div class="contact-info-title">THÔNG TIN LIÊN HỆ</div>
+
+            <div class="contact-item">
+                <i class="fa fa-map-marker"></i>
+                36 P. Đình Quán, Phúc Diễn, Bắc Từ Liêm, Hà Nội
+            </div>
+
+            <div class="contact-item">
+                <i class="fa fa-phone"></i>
+                0335342191
+            </div>
+
+            <div class="contact-item">
+                <i class="fa fa-envelope"></i>
+                cskh.gundamzone@gmail.com
+            </div>
+        </div>
+
+        <!-- RIGHT: MAP -->
+        <div class="contact-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.600255223099!2d105.74498987484957!3d21.048674980605615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454ee33cefbd7%3A0x6b4c600fd7ff6703!2zMzYgUC4gxJDDrG5oIFF1w6FuLCBD4bqndSBEaeG7hW4sIELhuq9jIFThu6sgTGnDqm0sIEjDoCBO4buZaSwgVmlldG5hbQ!5e0!3m2!1sen!2sus!4v1763633144668!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+
+            </iframe>
+        </div>
+
+    </div>
+</div>

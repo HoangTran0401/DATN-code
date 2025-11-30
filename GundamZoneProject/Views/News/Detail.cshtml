@@ -1,0 +1,31 @@
+﻿﻿@model GundamZoneProject.Models.EntityFrameWork.News
+@{
+    ViewBag.Title = Model.SeoTitle;
+    ViewBag.SeoDescription = Model.SeoDescription;
+    ViewBag.SeoKeyWord = Model.SeoKeyWords;
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="~/Assets/CustomerCss/detail-news.css" rel="stylesheet" />
+
+<div class="container news_section_container">
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title-news">@Model.Title</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 news-description">
+                @Model.Description
+            </div>
+
+            <div class="col-md-12 news-detail-content">
+                @Html.Raw(Model.Detail)
+            </div>
+        </div>
+    }
+</div>

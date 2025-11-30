@@ -1,0 +1,138 @@
+﻿/* ---------------------------
+   CARD STYLE
+---------------------------- */
+.card {
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.card-tools {
+    float: none !important;
+    margin-left: auto !important; /* đẩy về bên phải */
+}
+
+.card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* ---------------------------
+   BUTTON STYLE
+---------------------------- */
+.btn-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    padding: 6px 14px;
+    border-radius: 6px;
+}
+
+    .btn-primary:hover {
+        background-color: #2563eb;
+    }
+
+.btn-danger {
+    background-color: #ef4444;
+    border-color: #ef4444;
+    padding: 6px 14px;
+    border-radius: 6px;
+}
+
+    .btn-danger:hover {
+        background-color: #dc2626;
+    }
+
+.btn-info {
+    padding: 6px 14px;
+    border-radius: 6px;
+}
+
+/* ---------------------------
+   SEARCH BOX
+---------------------------- */
+.input-group .form-control {
+    border-radius: 6px 0 0 6px;
+    border: 1px solid #dcdcdc;
+}
+
+.input-group .btn {
+    border-radius: 0 6px 6px 0;
+}
+
+/* ---------------------------
+   TABLE STYLE
+---------------------------- */
+.table {
+    margin-top: 10px;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+}
+
+    .table thead tr {
+        background: #f2f4f7;
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .table thead th {
+        border: none !important;
+        padding: 12px 14px;
+    }
+
+    .table tbody tr {
+        background: white;
+        transition: 0.2s;
+    }
+
+        .table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+    .table tbody td {
+        padding: 12px 14px;
+        vertical-align: middle;
+        border-top: none !important;
+    }
+
+    /* Hình ảnh */
+    .table img {
+        border-radius: 6px;
+    }
+
+/* checkbox */
+input[type="checkbox"] {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* ---------------------------
+   PAGINATION
+---------------------------- */
+.pagination > li > a,
+.pagination > li > span {
+    border-radius: 6px !important;
+    padding: 6px 12px;
+    margin: 0 2px;
+    color: #333;
+}
+
+.pagination > .active > span {
+    background: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+}
+
+/* ---------------------------
+   FOOTER
+---------------------------- */
+.card-footer {
+    background: #fafafa;
+    border-top: 1px solid #eaeaea;
+    padding: 14px 20px;
+}

@@ -1,0 +1,160 @@
+﻿@model PagedList.PagedList<GundamZoneProject.Models.EntityFrameWork.ReviewProduct>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách đánh giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/AdminCss/index-review.css" rel="stylesheet" />
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Overview")" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/review" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Danh sách đánh giá</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/overview">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+@*<section class="content-header">
+        <h1>Danh sách đánh giá</h1>
+    </section>*@
+
+<section class="content">
+    <div class="card">
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Sản phẩm</th>
+                        <th>Tên</th>
+                        <th>Tên tài khoản</th>
+                        <th>Email</th>
+                        <th>Nội dung</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var stt = ((ViewBag.Page - 1) * ViewBag.PageSize) + 1;
+
+                        foreach (var item in Model)
+                        {
+                            <tr id="row_@item.Id">
+                                <td>@stt</td>
+                                <td>
+                                    @{
+                                        var img = item.Product.ProductImage
+                                            ?.FirstOrDefault(x => x.IsDefault)?.Image;
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(img))
+                                    {
+                                        <img class="imgproduct" data-id="@item.ProductId"
+                                             src="@img" width="50" style="cursor:pointer;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="noimg" data-id="@item.ProductId"
+                                              style="color:#007bff; cursor:pointer;">Không có ảnh</span>
+                                    }
+                                </td>
+
+                                <td>@item.Product.Title</td>
+
+                                <td>@item.FullName</td>
+                                <td>@item.Email</td>
+                                <td>@item.Content</td>
+                                <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+
+                                <td>
+                                    <button onclick="DeleteReview(@item.Id)" class="btn btn-danger btn-sm">Xóa</button>
+                                </td>
+                            </tr>
+                            stt++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">Không có đánh giá nào</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="text-right mt-3">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function DeleteReview(id) {
+
+        Swal.fire({
+            title: "Bạn có chắc chắn?",
+            text: "Bạn có muốn xoá đánh giá này không?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xoá",
+            cancelButtonText: "Hủy"
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                $.post('/Admin/Review/Delete', { id: id }, function (res) {
+
+                    if (res.Success) {
+
+                        $("#row_" + id).remove();
+
+                        Swal.fire({
+                            title: "Đã xoá!",
+                            text: "Đánh giá đã được xoá.",
+                            icon: "success",
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+                    } else {
+                        Swal.fire("Lỗi!", res.Message, "error");
+                    }
+
+                });
+
+            }
+
+        });
+
+    }
+</script>
+

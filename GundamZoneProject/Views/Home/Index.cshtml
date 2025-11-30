@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    .home-banner {
+        margin-top: 200px;
+    }
+
+        .home-banner img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+    .myBannerSwiper {
+        width: 100%;
+        height: 320px;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        color: #ffffff;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #ff3b3b;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<!-- Slider -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<div class="container home-banner">
+    <div class="swiper myBannerSwiper">
+        <div class="swiper-wrapper">
+
+            <!-- Banner 1 -->
+            <div class="swiper-slide">
+                <img src="/Content/assets/images/Banner.jpg" alt="banner 1" />
+            </div>
+
+            <!-- Banner 2 -->
+            <div class="swiper-slide">
+                <img src="/Content/assets/images/Banner5.jpg" alt="banner 2" />
+            </div>
+
+            <!-- Banner 3 -->
+            <div class="swiper-slide">
+                <img src="/Content/assets/images/Banner3.jpg" alt="banner 3" />
+            </div>
+
+        </div>
+
+        <!-- Nút điều hướng -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Dấu chấm chuyển slide -->
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+
+<!-- Banner -->
+@*@Html.Action("MenuProductCategory", "Menu")*@
+
+<!-- New Arrivals -->
+
+
+        @Html.Action("Partial_ItemsByCateId", "Products")
+ 
+
+
+<!-- Best Sellers -->
+
+@Html.Action("Partial_ProductSales", "Products")
+@Html.Action("Partial_BestSeller", "Products")
+
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            // TẮT toàn bộ handler click cũ của template
+            $('.btnAddToCart').off('click');
+            $('body').off('click', '.btnAddToCart');
+            $('body').off('click', '.add_to_cart_button a');
+
+            // Gắn lại handler mới
+            $('body').on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                console.log("RUN AJAX");
+
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/shoppingcart/addtocart',
+                    type: 'POST',
+                    data: { id: id, quantity: 1 },
+                    success: function (rs) {
+                        console.log("AJAX OK", rs);
+
+                        if (rs.Success) {
+                            $('#checkout_items').html(rs.Count);
+
+                            Swal.fire({
+                                title: "Thêm vào giỏ hàng!",
+                                text: rs.msg,
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        // 🚫 Tắt toàn bộ alert mặc định của trang
+        window.alert = function () { };
+        window.confirm = function () { return true; };
+
+    </script>
+    <script>
+        var swiper = new Swiper(".myBannerSwiper", {
+            loop: true,               // chạy vòng lặp
+            autoplay: {
+                delay: 3000,          // đổi slide sau 3 giây
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            }
+        });
+    </script>
+
+}

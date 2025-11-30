@@ -1,0 +1,159 @@
+﻿@model IEnumerable<GundamZoneProject.Models.ShoppingCartItem>
+@using GundamZoneProject.Common
+@{
+
+    ViewBag.Title = "Giỏ hàng";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<link href="~/Assets/CustomerCss/index-cart.css" rel="stylesheet" />
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active"><a href="/gio-hang"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+            <!-- Main Content -->
+
+            <div class="row">
+                <div class="col-md-12" id="load_data">
+                    @Html.Action("Partial_Item_Cart", "ShoppingCart")
+                </div>
+                <div class="col-md-12">
+                    @if (ViewBag.CheckCart != null)
+                    {
+                        <div class="d-flex justify-content-between">
+                            <!-- BÊN TRÁI -->
+                            <div>
+                                <a href="/san-pham" class="btn btn-continue">
+                                    ← Tiếp tục mua hàng
+                                </a>
+                            </div>
+
+                            <!-- BÊN PHẢI -->
+                            <div class="text-right">
+                                <a href="#" class="btn btn-danger btnDeleteAllCart">Xóa toàn bộ</a>
+                                <a href="/thanh-toan" class="btn btn-success">Thanh toán</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("body").on("change blur", ".txtQuantity", function () {
+
+            var id = $(this).data("id");
+            var max = parseInt($(this).data("max"));
+            var quantity = parseInt($(this).val());
+
+            if (quantity > max) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Vượt số lượng!",
+                    text: "Số lượng vượt quá kho (" + max + ")",
+                });
+                $(this).val(max);
+                return;
+            }
+
+            if (quantity <= 0 || isNaN(quantity)) {
+                $(this).val(1);
+                quantity = 1;
+            }
+
+            $.ajax({
+                url: "/ShoppingCart/Update",
+                type: "POST",
+                data: { id: id, quantity: quantity },
+                success: function (res) {
+                    if (res.Success) {
+                        $("#load_data").load("/ShoppingCart/Partial_Item_Cart");
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Lỗi",
+                            text: res.msg
+                        });
+                    }
+                }
+            });
+        });
+
+
+    </script>
+    <script>
+        // XÓA 1 SẢN PHẨM TRONG GIỎ
+        $('body').on('click', '.btnDeleteCart', function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            Swal.fire({
+                title: "Xóa sản phẩm?",
+                text: "Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/shoppingcart/Delete',
+                        type: 'POST',
+                        data: { id: id },
+                        success: function (rs) {
+                            if (rs.Success) {
+                                $('#trow_' + id).remove();
+                                LoadCart();
+                                $('#checkout_items').html(rs.Count);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        // XÓA TOÀN BỘ GIỎ
+        $('body').on('click', '.btnDeleteAllCart', function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Xóa toàn bộ giỏ hàng?",
+                text: "Bạn có chắc muốn xóa tất cả sản phẩm?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Xóa",
+                cancelButtonText: "Hủy"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/shoppingcart/DeleteAll',
+                        type: 'POST',
+                        success: function (rs) {
+                            if (rs.Success) {
+                                LoadCart();
+                                $('#checkout_items').html(0);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+@*<script src="~/Content/assets/js/categories_custom.js"></script>*@

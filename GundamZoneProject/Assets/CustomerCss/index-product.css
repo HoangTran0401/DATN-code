@@ -1,0 +1,221 @@
+﻿
+
+
+/* ===== LAYOUT CHO SIDEBAR + MAIN CONTENT ===== */
+.product_section {
+    display: flex;
+    gap: 25px; /* khoảng cách giữa sidebar và sản phẩm */
+    align-items: flex-start !important;
+}
+
+/* Sidebar rộng hơn */
+.sidebar {
+    width: 240px; /* ← MUỐN RỘNG HƠN THÌ TĂNG SỐ NÀY (340px, 360px...) */
+    flex-shrink: 0; /* không cho sidebar bị co lại */
+    background: #ffffff;
+    padding: 18px 20px;
+    border-radius: 12px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-left: -30px;
+}
+
+/* Nội dung chính chiếm phần còn lại */
+.main_content {
+    flex: 1;
+}
+
+/* ===== SIDEBAR SECTION ===== */
+
+.sidebar_section {
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+    .sidebar_section:last-child {
+        border-bottom: none;
+    }
+
+.sidebar_title h5 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    font-size: 15px;
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+    .sidebar ul li a:hover {
+        background: #f5f8ff;
+        color: #d12d2d;
+    }
+
+/* ===== PRODUCT GRID ===== */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+.product_image img {
+    border-radius: 10px;
+    border: 1px solid #f0f0f0;
+    transition: 0.25s ease;
+}
+
+.product-item:hover img {
+    transform: scale(1.03);
+}
+
+.product_name a {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.4;
+}
+
+    .product_name a:hover {
+        color: #d12d2d;
+    }
+
+.product_price {
+    margin-top: 8px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #d12d2d;
+}
+
+    .product_price span {
+        font-size: 14px;
+        margin-left: 6px;
+    }
+
+/* ===== SORT ===== */
+
+.sorting_bar select {
+    border-radius: 8px;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .sorting_bar select:hover {
+        border-color: #d12d2d;
+        box-shadow: 0 0 6px rgba(209,45,45,0.25);
+    }
+
+/* ===== BREADCRUMB ===== */
+
+.breadcrumbs ul {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+    .breadcrumbs ul li a {
+        color: #555;
+        transition: 0.2s;
+    }
+
+        .breadcrumbs ul li a:hover {
+            color: #d12d2d;
+        }
+
+.breadcrumbs i {
+    margin: 0 4px;
+    color: #aaa;
+}
+
+/* Highlight tên danh mục và sản phẩm */
+.breadcrumb-category {
+    color: #d12d2d !important;
+    font-weight: 700 !important;
+}
+
+.breadcrumb-product {
+    color: #d12d2d !important;
+    font-weight: 700 !important;
+    opacity: 0.85;
+}
+/* Tăng khoảng cách giữa "Nhà sản xuất" và "Lọc theo giá" */
+.sidebar .sidebar_title:first-of-type {
+    margin-bottom: 20px;
+}
+
+/* Gạch phân cách đẹp hơn */
+.sidebar_section {
+    padding-bottom: 18px;
+    border-bottom: 1px solid #eee;
+}
+/* ===== STYLE MỚI CHO LỌC THEO GIÁ ===== */
+
+/* Tiêu đề */
+.sidebar_title h5 {
+    font-size: 17px;
+    font-weight: 800;
+    color: #222;
+}
+
+/* Text giá */
+#amount {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* --- SLIDER RANGE MÀU ĐẸP --- */
+#slider-range .ui-slider-range {
+    background: #ff3b47 !important; /* màu đỏ chính */
+}
+
+#slider-range .ui-slider-handle {
+    border: none !important;
+    background: #ff3b47 !important;
+    width: 18px !important;
+    height: 18px !important;
+    top: -6px !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+}
+
+#slider-range {
+    height: 4px !important;
+    background: #ffd3d7 !important; /* thanh nền nhạt */
+    border: none !important;
+    border-radius: 4px !important;
+}
+
+/* --- NÚT LỌC MÀU ĐỎ --- */
+.filter_button {
+    width: 100%;
+    background: #ff3b47;
+/*    padding: 10px 0;*/
+    border-radius: 6px;
+    transition: 0.2s ease;
+    text-align: center;
+}
+
+    .filter_button:hover {
+        background: #e92d3a;
+        transform: translateY(-1px);
+    }
+
+    .filter_button span {
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        font-size: 14px;
+    }
+.sidebar_section i,
+.sidebar_section .fa {
+    font-family: "FontAwesome" !important;
+}

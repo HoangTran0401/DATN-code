@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Kết quả thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="active">
+                        <a href="#"><i class="fa fa-angle-right"></i>Thanh toán</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1>Thanh toán</h1>
+
+                    @if (ViewBag.Status == true)
+                    {
+                        <p class="text-success" style="font-size:18px;font-weight:bold;">
+                            @ViewBag.Message
+                        </p>
+
+                        <p>Số tiền thanh toán: @ViewBag.Amount đ</p>
+                    }
+                    else
+                    {
+                        <p class="text-danger" style="font-size:18px;font-weight:bold;">
+                            @ViewBag.Message
+                        </p>
+                    }
+                </div>
+            </div>
+
+            <hr />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+﻿@model IEnumerable<GundamZoneProject.Models.EntityFrameWork.Coupon>
+
+<!-- Font tiếng Việt chuẩn -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<link href="~/Assets/CustomerCss/Coupon.css" rel="stylesheet" />
+
+
+
+<div class="coupon-container">
+
+    @*<h2 class="coupon-title">Mã giảm giá của bạn</h2>*@
+
+    <table class="coupon-table">
+        <thead>
+            <tr>
+                <th colspan="4" class="coupon-title-inside"> Mã giảm giá của bạn </th>
+            </tr>
+            <tr>
+                <th style="width: 300px;">Mã giảm</th>
+                <th>Giá trị</th>
+                <th>Đơn tối thiểu</th>
+                <th>Ngày hết hạn</th>
+                <th>Trạng thái</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var cp in Model)
+            {
+                <tr class="coupon-row">
+                    <td>
+                        <div class="code-wrapper">
+                            <span class="coupon-code">@cp.Code</span>
+
+                            <button class="btn-copy" onclick="copyCoupon('@cp.Code', this)">
+                                Sao chép
+                            </button>
+
+                            <span class="copy-success">✔</span>
+                        </div>
+                    </td>
+
+                    <td class="discount-tag">
+                        @(cp.DiscountType == 1
+                            ? cp.DiscountValue + "%"
+                            : cp.DiscountValue.ToString("N0") + " đ")
+                    </td>
+
+                    <td>@cp.MinOrderValue.ToString("N0") đ</td>
+
+                    <td class="date-expired">
+                        @(cp.EndDate.HasValue
+                            ? cp.EndDate.Value.ToString("dd/MM/yyyy")
+                            : "Không giới hạn")
+                    </td>
+                    <td>
+                        @{
+                            string statusText = "";
+                            string statusClass = "";
+
+                            if (!cp.EndDate.HasValue)
+                            {
+                                statusText = "Còn hạn";
+                                statusClass = "status-valid";
+                            }
+                            else if (cp.EndDate.Value.Date < DateTime.Now.Date)
+                            {
+                                statusText = "Hết hạn";
+                                statusClass = "status-expired";
+                            }
+                            else
+                            {
+                                statusText = "Còn hạn";
+                                statusClass = "status-valid";
+                            }
+                        }
+
+                        <span class="@statusClass">@statusText</span>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section scripts {
+    <script>
+        function copyCoupon(code, btn) {
+            navigator.clipboard.writeText(code);
+
+            let success = btn.parentElement.querySelector(".copy-success");
+            success.style.display = "inline";
+
+            setTimeout(() => success.style.display = "none", 1500);
+        }
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿/* ============================
+   CARD + HEADER
+============================ */
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background: #fff;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eee;
+    border-radius: 14px 14px 0 0 !important;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* ============================
+   TABLE STYLE
+============================ */
+.table {
+    background: #fff;
+}
+
+    .table thead tr {
+        background: #f5f7fa;
+        border-bottom: 2px solid #e4e6ef;
+    }
+
+    .table thead th {
+        font-weight: 600;
+        padding: 14px 12px;
+        color: #444;
+        font-size: 14px;
+    }
+
+    .table tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+/* Image styling */
+.table img {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #eee;
+}
+
+/* ============================
+   PAGINATION
+============================ */
+.pagination > li > a,
+.pagination > li > span {
+    border-radius: 6px !important;
+    margin: 0 3px;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+}
+
+.pagination > .active > a {
+    background-color: #3c8dbc !important;
+    border-color: #3c8dbc !important;
+    color: #fff !important;
+}
+
+/* ============================
+   BREADCRUMB
+============================ */
+.breadcrumb {
+    background: transparent;
+}
+
+.breadcrumb-item a {
+    color: #3c8dbc;
+    font-weight: 500;
+}
+
+.content-header h1 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+/* ============================
+   BACK BUTTON
+============================ */
+.btn-danger {
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-weight: 500;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+.back-btn-col {
+    margin-top: 12px !important;
+}
+

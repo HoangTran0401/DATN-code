@@ -1,0 +1,86 @@
+﻿/* ---------------------------
+   CARD STYLE
+---------------------------- */
+.card {
+    border-radius: 14px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    overflow: hidden;
+}
+
+.card-header {
+    background: #fafafa;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* ---------------------------
+   FORM STYLE
+---------------------------- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+.form-control {
+    border-radius: 10px !important;
+    border: 1px solid #dcdcdc;
+    padding: 10px 14px;
+    height: 44px;
+    transition: 0.2s;
+}
+
+    .form-control:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+/* ---------------------------
+   BUTTON STYLE
+---------------------------- */
+.btn-success {
+    background-color: #10b981;
+    border-color: #10b981;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+    .btn-success:hover {
+        background-color: #059669;
+    }
+
+.btn-danger {
+    background-color: #ef4444;
+    border-color: #ef4444;
+    padding: 9px 18px;
+    border-radius: 8px;
+}
+
+    .btn-danger:hover {
+        background-color: #dc2626;
+    }
+
+/* ---------------------------
+   CARD BODY & FOOTER
+---------------------------- */
+.card-body {
+    padding: 24px 26px;
+}
+
+.card-footer {
+    background: #fafafa;
+    padding: 14px 20px;
+    border-top: 1px solid #eaeaea;
+}

@@ -1,0 +1,96 @@
+﻿
+/* Font chữ – KHÔNG đụng icon */
+body, p, span, div, h1, h2, h3, h4, h5, h6, a, button, li {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+    color: #222; /* chữ đen */
+}
+
+.contact-wrapper {
+    margin-top: 150px;
+    background: #fff; /* NỀN TRẮNG */
+    padding: 40px 0;
+}
+
+/* Layout */
+.contact-container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 40px;
+}
+
+/* Bên trái */
+.contact-left {
+    width: 45%;
+}
+
+    .contact-left h2 {
+        font-size: 40px;
+        font-weight: 900;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        color: #111;
+    }
+
+    .contact-left p {
+        font-size: 18px;
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+.contact-info-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+/* Item */
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 18px;
+    color: #222;
+}
+
+    .contact-item i {
+        color: #ff3b3b;
+        margin-right: 12px;
+        font-size: 22px;
+    }
+
+/* Map */
+.contact-map {
+    width: 55%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+}
+
+/* Mobile */
+@@media (max-width: 992px) {
+    .contact-container {
+        flex-direction: column;
+    }
+
+    .contact-left,
+    .contact-map {
+        width: 100%;
+    }
+
+    iframe {
+        height: 350px;
+    }
+}
+
+

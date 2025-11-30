@@ -1,0 +1,112 @@
+﻿/* ======================================
+   CARD + KHUNG NGOÀI
+====================================== */
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.card-body {
+    padding: 22px;
+}
+
+/* ======================================
+   TABLE STYLE
+====================================== */
+.table {
+    background: #fff;
+}
+
+    .table thead tr {
+        background: #f5f7fa;
+        border-bottom: 2px solid #e4e6ef;
+    }
+
+    .table thead th {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 14px 10px;
+        color: #444;
+    }
+
+    .table tbody td {
+        padding: 14px 10px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+/* Hover */
+.table-hover tbody tr:hover {
+    background-color: #fafafa;
+}
+
+/* ======================================
+   PRODUCT IMAGE
+====================================== */
+.imgproduct {
+    border-radius: 6px;
+    border: 1px solid #e6e6e6;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.noimg {
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+/* ======================================
+   DELETE BUTTON
+====================================== */
+.btn-danger.btn-sm {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ======================================
+   PAGINATION
+====================================== */
+.pagination > li > a,
+.pagination > li > span {
+    border-radius: 6px !important;
+    margin: 0 3px;
+    border: 1px solid #ddd;
+    padding: 6px 12px;
+    color: #555;
+    font-size: 14px;
+}
+
+.pagination > .active > a {
+    background-color: #3c8dbc !important;
+    border-color: #3c8dbc !important;
+    color: #fff !important;
+}
+
+/* ======================================
+   HEADER + BREADCRUMB
+====================================== */
+.content-header h1 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.breadcrumb {
+    background: transparent;
+}
+
+.breadcrumb-item a {
+    color: #3c8dbc;
+    font-weight: 500;
+}
+
+/* ======================================
+   EMPTY ROW
+====================================== */
+.text-muted {
+    font-size: 15px;
+    padding: 20px 0;
+}

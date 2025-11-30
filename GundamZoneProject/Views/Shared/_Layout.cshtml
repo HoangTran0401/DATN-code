@@ -1,0 +1,357 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>GundamZone</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Colo Shop Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/bootstrap4/bootstrap.min.css">
+
+    <link href="~/Content/assets/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.css">
+
+    @*@RenderSection("css", required: false)*@
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/styles/responsive.css">
+    @*@Styles.Render("~/Content/css")*@
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Content/assets/js/jquery-3.2.1.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <link href="~/Assets/CustomerCss/layout-shared-customer.css" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="super_container">
+
+        <!-- Header -->
+
+        <header class="header trans_300">
+
+            <!-- Top Navigation -->
+
+            <div class="top_nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="top_nav_right">
+                                <ul class="top_nav_menu">
+                                    <li class="account">
+                                        @if (!Request.IsAuthenticated)
+                                        {
+                                            <a href="#">
+                                                Tài khoản của tôi
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="account_selection">
+                                                <li><a href="/account/login"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                                                <li><a href="/account/Register"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <a href="#">
+                                                Welcome: @User.Identity.Name
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <ul class="account_selection">
+
+                                                <li>
+                                                    <a href="/account/profile">
+                                                        <i class="fa fa-user" aria-hidden="true"></i> Tài khoản
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="/userorder/history">
+                                                        <i class="fa fa-list-alt" aria-hidden="true"></i> Lịch sử đơn hàng
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/Coupon/MyCoupons">
+                                                        <i class="fa fa-ticket" aria-hidden="true"></i> Mã giảm giá
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:document.getElementById('logOffForm').submit()">
+                                                        <i class="fa fa-sign-out" aria-hidden="true"></i> Đăng xuất
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        }
+
+
+                                    </li>
+                                </ul>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <div style="display:none">
+                                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()}
+                                    </div>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Navigation -->
+
+            <div class="main_nav_container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <div class="logo_container">
+                                <a href="/" class="logo-gundamzone">
+                                    <span class="gundam-red">GUNDAM</span><span class="gundam-white">ZONE</span>
+                                </a>
+                            </div>
+
+                            <nav class="navbar">
+                                @Html.Action("MenuTop", "Menu")
+                                <ul class="navbar_user">
+                                    <li>
+                                        <form action="/products/search" method="get" class="search-form">
+                                            <input type="text" name="keyword" class="search-input" placeholder="Tìm kiếm mô hình..." required />
+                                            <button type="submit" class="btn-search">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+
+                                    @*<li><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></li>*@
+                                    <li class="checkout">
+                                        <a href="/gio-hang">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                            <span id="checkout_items" class="checkout_items">0</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="hamburger_container">
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="fs_menu_overlay"></div>
+        <div class="hamburger_menu">
+            <div class="hamburger_close"><i class="fa fa-times" aria-hidden="true"></i></div>
+            <div class="hamburger_menu_content text-right">
+                <ul class="menu_top_nav">
+                    <li class="menu_item has-children">
+                        <a href="#">
+                            usd
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="menu_selection">
+                            <li><a href="#">cad</a></li>
+                            <li><a href="#">aud</a></li>
+                            <li><a href="#">eur</a></li>
+                            <li><a href="#">gbp</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu_item has-children">
+                        <a href="#">
+                            English
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="menu_selection">
+                            <li><a href="#">French</a></li>
+                            <li><a href="#">Italian</a></li>
+                            <li><a href="#">German</a></li>
+                            <li><a href="#">Spanish</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu_item has-children">
+                        <a href="#">
+                            My Account
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="menu_selection">
+                            <li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i>Đăng nhập</a></li>
+                            <li><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu_item"><a href="#">Trang chủ</a></li>
+                    <li class="menu_item"><a href="#">shop</a></li>
+                    <li class="menu_item">
+                        <form action="/products/search" method="get" class="p-2">
+                            <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..." required />
+                        </form>
+                    </li>
+
+                    <li class="menu_item"><a href="#">promotion</a></li>
+                    <li class="menu_item"><a href="#">pages</a></li>
+                    <li class="menu_item"><a href="#">blog</a></li>
+                    <li class="menu_item"><a href="#">contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container" style="padding-top:35px;">
+            @RenderBody()
+        </div>
+
+
+        <!-- CUSTOM FOOTER -->
+        <footer style="background: #fff; margin-top:50px; font-size:15px;">
+
+            <!-- Banner vàng -->
+            <div style="background:#f28c00; padding:18px 0;">
+
+                <div class="container text-center">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <h4 style="font-weight:bold; margin:0;">GIAO HÀNG SIÊU TỐC</h4>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4 style="font-weight:bold; margin:0;">GIẢM GIÁ KHI MUA HÀNG</h4>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <h4 style="font-weight:bold; margin:0;">SẢN PHẨM CHÍNH HÃNG</h4>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nội dung footer -->
+            <div class="container" style="padding:25px 0 10px 0;">
+                <div class="row">
+
+                    <div class="col-md-3 text-center">
+                        @*<h5 style="font-weight:bold; margin-bottom:15px;">GUNDAMZONE</h5>*@
+
+                        <!-- LOGO GUNDAMZONE thay icon mạng xã hội -->
+                        <a href="/" class="logo-gundamzone" style="display:inline-block; font-size:28px;">
+                            <span class="gundam-red">GUNDAM</span>
+                            <span class="gundam-white">ZONE</span>
+                        </a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 style="font-weight:bold; margin-bottom:15px;">LIÊN HỆ</h5>
+                        <p style="margin:0;">GundamZone Việt Nam</p>
+                        <p style="margin:5px 0;"><b>36 Đình Quán, Phú Diễn, Hà Nội</b></p>
+                        <p style="margin:5px 0;">Email: <b>cskh.gundamzone@gmail.com</b></p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 style="font-weight:bold; margin-bottom:15px;">HOTLINE</h5>
+                        <p style="margin:0;">Mở cửa 9:00 - 20:00</p>
+                        <p style="margin:5px 0; font-weight:bold; color:#333;">033.534.2191</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h5 style="font-weight:bold; margin-bottom:15px;">VỀ GUNDAMZONE</h5>
+
+                        <p>
+                            <a href="/home/contact" style="color:#000; text-decoration:none;">
+                                Liên hệ
+                            </a>
+                        </p>
+
+                        <p>
+                            <a href="/home/about" style="color:#000; text-decoration:none;">
+                                Giới thiệu GundamZone
+                            </a>
+                        </p>
+
+                        <p>
+                            Cửa hàng kinh doanh các sản phẩm mô hình Gundam, Gunpla, figure
+                            chính hãng Bandai, Kotobukiya…,.
+                        </p>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </footer>
+
+
+
+
+
+
+        <!-- Newsletter -->
+        @*@Html.Action("Partial_Subcribe", "Home")*@
+
+        <!-- Footer -->
+        <!--<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="footer_nav_container d-flex flex-sm-row flex-column align-items-center justify-content-lg-start justify-content-center text-center">
+                    <ul class="footer_nav">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="contact.html">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="footer_social d-flex flex-row align-items-center justify-content-lg-end justify-content-center">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a></li>
+                        <li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer_nav_container">-->
+        @*<div class="cr">©2018 All Rights Reserverd. Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="#">Colorlib</a> &amp; distributed by <a href="https://themewagon.com">ThemeWagon</a></div>*@
+        <!--</div>
+                </div>
+            </div>
+        </div>
+    </footer>-->
+
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+
+    <script src="~/Content/assets/styles/bootstrap4/popper.js"></script>
+    <script src="~/Content/assets/styles/bootstrap4/bootstrap.min.js"></script>
+    <script src="~/Content/assets/plugins/Isotope/isotope.pkgd.min.js"></script>
+    <script src="~/Content/assets/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/Content/assets/plugins/easing/easing.js"></script>
+    <script src="~/Content/assets/plugins/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="~/Content/assets/js/custom.js"></script>
+    <script src="~/Scripts/jsShopping.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

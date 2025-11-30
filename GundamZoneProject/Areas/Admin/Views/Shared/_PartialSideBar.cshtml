@@ -1,0 +1,170 @@
+﻿<!-- Sidebar -->
+<div class="sidebar">
+
+    <!-- User Info -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
+        <div class="image">
+            <img src="https://ui-avatars.com/api/?name=@User.Identity.Name&background=ff3b3b&color=fff&bold=true"
+                 class="img-circle elevation-2 border" style="width:40px; height:40px;" alt="User Image">
+        </div>
+        <div class="info ml-2">
+            <a href="/admin/account" class="d-block font-weight-bold text-white">@User.Identity.Name</a>
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <li class="nav-item">
+                <a href="/admin/overview"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/overview") ? "active" : "")">
+                    <i class="nav-icon fas fa-tachometer-alt"></i>
+
+                    <p>Tổng quan</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/statistical"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/statistical") ? "active" : "")">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>Thống kê</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/admin/category"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/category") ? "active" : "")">
+                    <i class="nav-icon fas fa-layer-group"></i>
+                    <p>Danh mục</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/admin/role"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/role") ? "active" : "")">
+                    <i class="nav-icon fas fa-user-shield"></i>
+                    <p>Vai trò</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="/admin/news"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/news") ? "active" : "")">
+                    <i class="nav-icon fas fa-newspaper"></i>
+                    <p>Tin tức</p>
+                </a>
+            </li>
+
+            @*<li class="nav-item">
+            <a href="/admin/posts"
+               class="nav-link @(Request.RawUrl.Contains("/admin/posts") ? "active" : "")">
+                <i class="nav-icon fas fa-file-alt"></i>
+                <p>Bài viết</p>
+            </a>
+        </li>*@
+
+            <li class="nav-item">
+                <a href="/admin/order"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/order") ? "active" : "")">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    <p>Đơn hàng</p>
+                </a>
+            </li>
+
+            @*<li class="nav-item">
+            <a href="/admin/posts"
+               class="nav-link @(Request.RawUrl.Contains("/admin/ads") ? "active" : "")">
+                <i class="nav-icon fas fa-bullhorn"></i>
+                <p>Quảng cáo</p>
+            </a>
+        </li>*@
+
+            <li class="nav-item has-treeview @(Request.RawUrl.Contains("/admin/product") ? "menu-open" : "")">
+                <a href="#"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/product") ? "active" : "")">
+                    <i class="nav-icon fas fa-box-open"></i>
+                    <p>
+                        Quản lý sản phẩm
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/admin/productcategory"
+                           class="nav-link @(Request.RawUrl.Contains("/admin/productcategory") ? "active" : "")">
+                            <i class="fas fa-minus nav-icon"></i>
+
+                            <p>Danh mục sản phẩm</p>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="/admin/products"
+                           class="nav-link @(Request.RawUrl.Contains("/admin/products") ? "active" : "")">
+                            <i class="fas fa-minus nav-icon"></i>
+                            <p>Danh sách sản phẩm</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/import"
+                           class="nav-link @(Request.RawUrl.Contains("/admin/import") ? "active" : "")">
+                            <i class="fas fa-minus nav-icon"></i>
+                            <p>Nhập hàng</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/review"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/review") ? "active" : "")">
+                    <i class="nav-icon fas fa-comments"></i>
+                    <p>Đánh giá sản phẩm</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/coupon"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/coupon") ? "active" : "")">
+                    <i class="nav-icon fas fa-tags"></i>
+
+                    <p>Quản lý mã giảm giá</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/account"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/account") ? "active" : "")">
+                    <i class="nav-icon fas fa-users-cog"></i>
+                    <p>Tài khoản</p>
+                </a>
+            </li>
+
+            @*<li class="nav-item">
+                <a href="/posts"
+                   class="nav-link @(Request.RawUrl.Contains("/admin/settingsystem") ? "active" : "")">
+                    <i class="nav-icon fas fa-cog"></i>
+                    <p>Cấu hình hệ thống</p>
+                </a>
+            </li>*@
+
+            <li class="nav-item">
+                <a href="javascript:document.getElementById('logOffForm').submit()"
+                   class="nav-link text-danger">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>Đăng xuất</p>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>
+
+@if (Request.IsAuthenticated)
+{
+    <div style="display:none">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    </div>
+}

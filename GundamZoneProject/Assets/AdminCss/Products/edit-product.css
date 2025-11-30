@@ -1,0 +1,149 @@
+﻿/* ===============================
+   PREMIUM EDIT PRODUCT PAGE
+=============================== */
+
+/* Card tổng */
+.card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+    overflow: hidden;
+}
+
+/* Header */
+.card-header {
+    background: #fff;
+    padding: 22px 26px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+    .card-header .card-title {
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+/* Các card con */
+.card .card {
+    border-radius: 14px;
+    box-shadow: none;
+    border: 1px solid #eee;
+}
+
+/* Tabs */
+.nav-pills .nav-link {
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
+    margin-right: 6px;
+    color: #444;
+}
+
+    .nav-pills .nav-link.active {
+        background: #007bff;
+        color: white !important;
+        box-shadow: 0 3px 10px rgba(0,123,255,0.35);
+    }
+
+/* Form Label */
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Input */
+.form-control {
+    height: 42px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    transition: .2s;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+    }
+
+/* Textarea */
+textarea.form-control {
+    height: auto !important;
+    min-height: 120px;
+    border-radius: 12px;
+}
+
+/* ===========================
+   CUSTOM CHECKBOX (Modern)
+=========================== */
+
+.custom-control-label {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #007bff;
+    background-color: #007bff;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.18);
+}
+
+/* ===========================
+    BUTTONS
+=========================== */
+
+.btn-success {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    background: #1fb655 !important;
+    box-shadow: 0 4px 10px rgba(0,150,80,0.25);
+}
+
+    .btn-success:hover {
+        opacity: .9;
+    }
+
+.btn-danger {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    background: #e74c3c !important;
+    box-shadow: 0 4px 10px rgba(231,76,60,0.25);
+}
+
+    .btn-danger:hover {
+        opacity: .9;
+    }
+
+/* ===========================
+    PRICE INPUTS (AutoNumeric)
+=========================== */
+
+.auto {
+    border-radius: 10px !important;
+    height: 42px;
+    font-weight: 600;
+}
+
+/* ===========================
+    SPACING
+=========================== */
+
+.tab-content .form-group {
+    margin-bottom: 22px;
+}
+
+.row .form-group {
+    margin-bottom: 18px;
+}
+
+/* ===========================
+    CKEDITOR container
+=========================== */
+#txtDetail {
+    border-radius: 12px;
+    min-height: 200px;
+}

@@ -1,0 +1,163 @@
+﻿@model PagedList.PagedList<GundamZoneProject.Models.EntityFrameWork.Product>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Nhập hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/AdminCss/Import/index-import.css" rel="stylesheet" />
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Overview")" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/import" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý nhập hàng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/overview">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">@ViewBag.Title</h3>
+            <div class="float-right">
+                <a href="/Admin/Import/History" class="btn btn-primary btn-sm">
+                    Xem lịch sử nhập hàng
+                </a>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên sản phẩm</th>
+                        @*<th>Danh mục</th>*@
+                        <th>Tồn kho</th>
+                        <th>Số lượng nhập</th>
+                        <th style="width:120px;">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @{
+                        int stt = (Model.PageNumber - 1) * Model.PageSize + 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        var img = item.ProductImage?.FirstOrDefault(x => x.IsDefault)?.Image;
+
+                        <tr>
+                            <td>@stt</td>
+
+                            <td>
+                                @if (!string.IsNullOrEmpty(img))
+                                {
+                                    <img src="@img" width="50" />
+                                }
+                                else
+                                {
+                                    <span style="color:#888">Không có ảnh</span>
+                                }
+                            </td>
+
+                            <td>@item.Title</td>
+                            @*<td>
+                                    @(item.ProductCategory != null ? item.ProductCategory.Title : "—")
+                                </td>*@
+                            <td>@item.Quantity</td>
+
+                            <td>
+                                <input type="number" id="qty_@item.Id" value="1" min="1" class="form-control" style="width:80px;" />
+                            </td>
+
+                            <td>
+                                <button class="btn btn-success btn-sm"
+                                        onclick="importProduct(@item.Id)">
+                                    Nhập
+                                </button>
+                            </td>
+                        </tr>
+
+                        stt++;
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align:right;">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function importProduct(id) {
+        let qty = document.getElementById("qty_" + id).value;
+
+        if (qty < 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Số lượng phải lớn hơn 0"
+            });
+            return;
+        }
+
+        $.post("/admin/import/DoImport",
+            {
+                productId: id,
+                quantity: qty
+            },
+            function (res) {
+                if (res.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thành công!",
+                        text: "Nhập hàng thành công!",
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi",
+                        text: res.message
+                    });
+                }
+            });
+    }
+</script>
+

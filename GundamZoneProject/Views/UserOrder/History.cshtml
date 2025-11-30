@@ -1,0 +1,139 @@
+﻿@model List<GundamZoneProject.Models.EntityFrameWork.Order>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/CustomerCss/history-order.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+<div class="order-container">
+    <div class="order-wrapper">
+        <h2 class="mt-4 mb-3">📦 Lịch sử đơn hàng</h2>
+
+        <table class="table order-table">
+            <thead>
+                <tr>
+                    <th style="width:120px">Mã đơn</th>
+                    <th style="width:140px">Ngày đặt</th>
+                    <th style="width:160px">Tổng tiền</th>
+                    <th style="width:160px">Trạng thái</th>
+                    <th style="width:80px"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    string statusText = "";
+                    string statusClass = "";
+
+                    switch (item.Status)
+                    {
+                        case 1:
+                            statusText = "Chờ xử lý";
+                            statusClass = "st-wait";
+                            break;
+                        case 2:
+                            statusText = "Đã thanh toán";
+                            statusClass = "st-paid";
+                            break;
+                        case 3:
+                            statusText = "Chưa thánh toán";
+                            statusClass = "st-wait";
+                            break;
+                        case 4:
+                            statusText = "Đã hủy";
+                            statusClass = "st-cancel";
+                            break;
+                    }
+
+                    <tr>
+                        <td><strong>@item.Code</strong></td>
+
+                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                        <td><strong>@item.TotalAmount.ToString("N0") ₫</strong></td>
+
+                        <td>
+                            <span class="status-badge @statusClass">
+                                @statusText
+                            </span>
+                        </td>
+
+                        <td class="text-center">
+                            <div style="display:flex; justify-content:center; gap:10px;">
+
+                                <a href="/UserOrder/Detail/@item.Id"
+                                   class="btn btn-primary btn-view">
+                                    <i class="fa fa-eye"></i> Xem
+                                </a>
+
+                                @if (item.Status == 1)
+                                {
+                                    <button class="btn btn-danger btn-cancel"
+                                            data-id="@item.Id"
+                                            style="padding:5px 14px; border-radius:20px; font-size:13px;">
+                                        <i class="fa fa-times"></i> Hủy
+                                    </button>
+                                }
+                            </div>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $(".btn-cancel").click(function () {
+
+            var id = $(this).data("id");
+
+            Swal.fire({
+                title: "Hủy đơn hàng?",
+                text: "Bạn có chắc muốn hủy đơn này không?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Hủy đơn",
+                cancelButtonText: "Không"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        url: "/ShoppingCart/CancelOrder",
+                        type: "POST",
+                        data: { id: id },
+                        success: function (res) {
+
+                            if (res.Success) {
+                                Swal.fire({
+                                    title: "Đã hủy!",
+                                    text: "Hủy đơn thành công!",
+                                    icon: "success"
+                                }).then(() => {
+                                    location.reload();
+                                });
+
+                            } else {
+                                Swal.fire("Lỗi!", res.Message, "error");
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("Lỗi!", "Có lỗi xảy ra, vui lòng thử lại!", "error");
+                        }
+                    });
+
+                }
+
+            });
+
+        });
+
+    </script>
+}

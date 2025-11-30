@@ -1,0 +1,88 @@
+﻿@model IEnumerable<GundamZoneProject.Models.ShoppingCartItem>
+@using GundamZoneProject.Common
+<link href="~/Assets/CustomerCss/partial-item-thanh-toan.css" rel="stylesheet" />
+@if (Model != null && Model.Any())
+{
+    <h4>ĐƠN HÀNG <span><small>(@Model.Sum(x => x.Quantity) sản phẩm)</small></span></h4>
+
+    var tongtien = Model.Sum(x => x.TotalPrice);
+
+    <div class="order-wrap" style="border:1px solid #ddd; padding:12px; border-radius:5px;">
+        @foreach (var item in Model)
+        {
+            <div class="d-flex align-items-center mb-2" style="position:relative;">
+                <span style="background:#e60000; color:white; width:20px; height:20px; font-size:12px; border-radius:50%; display:flex; align-items:center; justify-content:center; position:absolute; left:-6px; top:-6px;">
+                    @item.Quantity
+                </span>
+                <img src="@item.ProductImg" width="55" style="border-radius:4px;" />
+                <div style="margin-left:10px;">
+                    <div>@item.ProductName</div>
+                    <strong>@Common.FormatNumber(item.Price, 0) đ</strong>
+                </div>
+            </div>
+        }
+
+        <hr />
+
+        <!-- Ô nhập mã giảm giá -->
+        <div class="input-group mb-2">
+            <input type="text" id="couponCode" class="form-control" placeholder="Nhập mã giảm giá" autocomplete="off" />
+            <div class="input-group-append">
+                <button class="btn btn-danger" id="btnApplyCoupon" type="button">Áp dụng</button>
+            </div>
+        </div>
+
+        <div id="couponMessage" style="color:red; font-size:14px;"></div>
+
+        <hr />
+
+        <div class="d-flex justify-content-between">
+            <span>Tạm tính:</span>
+            <strong id="subTotal">@Common.FormatNumber(tongtien, 0) đ</strong>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <span>Giảm giá:</span>
+            <strong id="discountAmount">0 đ</strong>
+        </div>
+
+        <div class="d-flex justify-content-between" style="color:red; font-size:18px;">
+            <span>Tổng cộng:</span>
+            <strong id="grandTotal">@Common.FormatNumber(tongtien, 0) đ</strong>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).off("click", "#btnApplyCoupon").on("click", "#btnApplyCoupon", function () {
+        var code = $("#couponCode").val().trim();
+        if (code === "") {
+            $("#couponMessage").text("Vui lòng nhập mã giảm giá!");
+            return;
+        }
+
+        $.ajax({
+            url: "/ShoppingCart/ApplyCoupon",
+            type: "POST",
+            data: { coupon: code },
+            success: function (res) {
+                if (res.success) {
+                    $("#couponMessage").css("color", "green").text("Áp dụng mã thành công!");
+
+                    $("#discountAmount").text(res.discount.toLocaleString() + " đ");
+                    $("#grandTotal").text(res.total.toLocaleString() + " đ");
+                } else {
+                    $("#couponMessage").css("color", "red").text(res.message);
+                    $("#discountAmount").text("0 đ");
+
+                    if (res.original !== undefined)
+                        $("#grandTotal").text(res.original.toLocaleString() + " đ");
+                }
+            },
+            error: function () {
+                $("#couponMessage").text("Lỗi server!");
+            }
+        });
+    });
+</script>
+

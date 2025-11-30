@@ -1,0 +1,138 @@
+﻿/* ---------------------------
+   CARD STYLE (BÊN NGOÀI)
+---------------------------- */
+.card {
+    border-radius: 12px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background: #fafafa;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.card-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* ---------------------------
+   FORM STYLE
+---------------------------- */
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.form-control {
+    border-radius: 8px !important;
+    border: 1px solid #dcdcdc;
+    padding: 10px 14px;
+    transition: 0.2s;
+}
+
+    .form-control:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59,130,246,0.15);
+    }
+
+textarea.form-control {
+    min-height: 140px;
+}
+
+/* ---------------------------
+   TABS NAV-PILLS
+---------------------------- */
+/*.nav-pills .nav-link {
+    border-radius: 6px;
+    font-weight: 500;
+    color: #444;
+}
+
+    .nav-pills .nav-link.active {
+        background: #3b82f6 !important;
+        color: white;
+    }
+
+    .nav-pills .nav-link:hover {
+        background: #e5e5e5;
+    }*/
+
+/* ---------------------------
+   BUTTONS
+---------------------------- */
+.btn-success {
+    background-color: #10b981;
+    border-color: #10b981;
+    padding: 7px 16px;
+    border-radius: 6px;
+}
+
+    .btn-success:hover {
+        background-color: #059669;
+    }
+
+.btn-primary {
+    padding: 7px 16px;
+    border-radius: 6px;
+}
+
+.btn-danger {
+    padding: 7px 14px;
+    border-radius: 6px;
+}
+
+/* ---------------------------
+   CHECKBOX STYLE
+---------------------------- */
+.custom-control-input {
+    cursor: pointer;
+}
+
+.custom-control-label {
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+/* ---------------------------
+   TABLE HÌNH ẢNH TAB 2
+---------------------------- */
+#tbAnhSanPham img {
+    border-radius: 6px;
+}
+
+#tbAnhSanPham tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* ---------------------------
+   INPUT GIÁ
+---------------------------- */
+.auto {
+    border-radius: 8px !important;
+}
+
+/* ---------------------------
+   CARD CON (TABS)
+---------------------------- */
+.card .card {
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+    box-shadow: none;
+}
+
+.card .card-header {
+    padding: 12px 16px;
+}
+
+/* ---------------------------
+   CARD FOOTER
+---------------------------- */
+.card-footer {
+    background: #fafafa;
+    border-top: 1px solid #eaeaea;
+    padding: 14px 20px;
+}

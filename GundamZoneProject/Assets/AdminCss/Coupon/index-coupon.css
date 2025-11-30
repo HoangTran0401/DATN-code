@@ -1,0 +1,112 @@
+﻿/* ======================================
+   CARD
+====================================== */
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.card-tools {
+    float: none !important;
+    margin-left: auto !important; /* đẩy về bên phải */
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Button ở header */
+.card-tools .btn {
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* ======================================
+   TABLE
+====================================== */
+.table {
+    background: #fff;
+}
+
+    .table thead tr {
+        background: #f5f7fa;
+        border-bottom: 2px solid #e4e6ef;
+    }
+
+    .table thead th {
+        padding: 14px 12px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .table tbody td {
+        padding: 14px 12px;
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+/* Hover */
+.table-hover tbody tr:hover {
+    background: #fafafa;
+}
+
+/* Badge trạng thái */
+.badge {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.bg-success {
+    background: #28a745 !important;
+}
+
+.bg-secondary {
+    background: #6c757d !important;
+}
+
+/* Button action */
+.btn-sm {
+    border-radius: 6px !important;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* ======================================
+   HEADER + BREADCRUMB
+====================================== */
+.content-header h1 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.breadcrumb {
+    background: transparent;
+}
+
+.breadcrumb-item a {
+    color: #3c8dbc;
+    font-weight: 500;
+}
+
+/* ======================================
+   EMPTY ROW
+====================================== */
+.table td[colspan] {
+    text-align: center;
+    padding: 20px 0;
+    color: #888;
+    font-size: 15px;
+}

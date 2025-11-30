@@ -1,0 +1,147 @@
+﻿@model GundamZoneProject.Models.EntityFrameWork.Order
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+
+<link href="~/Assets/CustomerCss/detail-order.css" rel="stylesheet" />
+
+<div class="container mt-5 mb-5">
+
+    <h2 class="mb-4">
+        🧾 Chi tiết đơn hàng <span class="text-primary">#@Model.Code</span>
+    </h2>
+
+    <div class="order-box">
+
+        <!-- BẢNG SẢN PHẨM (ĐÃ BỎ CỘT TỔNG) -->
+        <table class="table table-borderless">
+            <thead class="border-bottom">
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var d in Model.OrderDetails)
+                {
+                    <tr class="align-middle">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                @{
+                                    var img = d.Product.ProductImage.FirstOrDefault(x => x.IsDefault);
+                                    var imgPath = img?.Image ?? "/Content/images/no-image.png";
+                                }
+                                <img src="@imgPath" class="product-img me-3" />
+                                <a href="/chi-tiet/@d.Product.Alias-p@(d.Product.Id)" class="product-link">
+
+                                    @d.Product.Title
+                                </a>
+
+                            </div>
+                        </td>
+
+                        <td>@d.Price.ToString("N0") ₫</td>
+
+                        <td>@d.Quantity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- PHẦN TỔNG KẾT ĐƠN HÀNG -->
+        @{
+            var subTotal = Model.OrderDetails.Sum(x => x.Price * x.Quantity);
+            var discount = Model.DiscountAmount;
+            var total = Model.TotalAmount;
+        }
+
+        <div class="summary-title">Tổng kết đơn hàng</div>
+
+        <div class="price-line">
+            <span>Tạm tính:</span>
+            <strong>@subTotal.ToString("N0") ₫</strong>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.CouponCode) && discount > 0)
+        {
+            <div class="price-line" style="color:#d9534f;">
+                <span>Mã giảm: <strong>@Model.CouponCode</strong></span>
+                <strong>-@discount.ToString("N0") ₫</strong>
+            </div>
+        }
+
+        <hr />
+
+        <div class="price-line total-final">
+            <span>Tổng cộng:</span>
+            <span>@total.ToString("N0") ₫</span>
+        </div>
+
+    </div>
+
+    <!-- NÚT QUAY LẠI + HỦY ĐƠN -->
+    <div class="mt-4 d-flex justify-content-between">
+        <a href="@Url.Action("History", "UserOrder")" class="btn-back">
+            <i class="fa fa-arrow-left"></i> Quay lại
+        </a>
+
+        @if (Model.Status == 1)
+        {
+            <button class="btn-cancel" id="btnCancelOrder" data-id="@Model.Id">
+                <i class="fa fa-times"></i> Hủy đơn
+            </button>
+        }
+    </div>
+
+</div>
+
+@section scripts {
+    <script>
+        $("#btnCancelOrder").click(function () {
+
+    var id = $(this).data("id");
+
+    Swal.fire({
+        title: "Hủy đơn hàng?",
+        text: "Bạn có chắc muốn hủy đơn hàng này?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hủy đơn",
+        cancelButtonText: "Không"
+    }).then((result) => {
+
+        if (result.isConfirmed) {
+
+            $.ajax({
+                url: "/ShoppingCart/CancelOrder",
+                type: "POST",
+                data: { id: id },
+                success: function (res) {
+                    if (res.Success) {
+
+                        Swal.fire({
+                            title: "Đã hủy!",
+                            text: "Hủy đơn hàng thành công!",
+                            icon: "success",
+                        }).then(() => {
+                            location.href = "@Url.Action("History", "UserOrder")";
+                        });
+
+                    } else {
+                        Swal.fire("Lỗi!", res.Message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Lỗi!", "Có lỗi xảy ra, vui lòng thử lại!", "error");
+                }
+            });
+        }
+
+    });
+
+});
+
+    </script>
+}

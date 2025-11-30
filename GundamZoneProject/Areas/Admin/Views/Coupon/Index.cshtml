@@ -1,0 +1,219 @@
+﻿@model IEnumerable<GundamZoneProject.Models.EntityFrameWork.Coupon>
+@{
+    ViewBag.Title = "Mã giảm giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/AdminCss/Coupon/index-coupon.css" rel="stylesheet" />
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Statistical")" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/coupon" class="nav-link">Mã giảm giá</a>
+        </li>
+    </ul>
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Quản lý mã giảm giá</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Mã giảm giá</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách mã giảm giá</h3>
+
+            <div class="card-tools">
+                <a href="/admin/coupon/create" class="btn btn-primary">Thêm mới</a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Mã</th>
+                        <th>Loại giảm</th>
+                        <th>Mức giảm</th>
+                        <th>Đơn tối thiểu</th>
+                        @*<th>Số lượng</th>*@
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Trạng thái</th>
+                        <th>Hiển thị</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        var i = 1;
+                        foreach (var item in Model)
+                        {
+                            var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
+                            <tr id="row_@item.Id">
+                                <td>@i</td>
+                                <td><strong>@item.Code</strong></td>
+
+                                <td>
+                                    @(item.DiscountType == 1 ? "Giảm %" : "Giảm tiền")
+                                </td>
+
+                                <td>
+                                    @(item.DiscountType == 1
+                                        ? item.DiscountValue + "%"
+                                        : item.DiscountValue.ToString("N0") + " đ")
+                                </td>
+
+                                <td>@(item.MinOrderValue.ToString("N0") + " đ")</td>
+
+                                @*<td>@item.Quantity</td>*@
+                                <td>@(item.StartDate.HasValue ? item.StartDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                                <td>@(item.EndDate.HasValue ? item.EndDate.Value.ToString("dd/MM/yyyy") : "")</td>
+
+                                <td>
+                                    @{
+                                        var today = DateTime.Now;
+                                        var start = item.StartDate ?? DateTime.MinValue;
+                                        var end = item.EndDate ?? DateTime.MaxValue;
+
+                                        string status = "";
+                                        string badgeClass = "";
+
+                                        if (today < start)
+                                        {
+                                            status = "Chưa hiệu lực";
+                                            badgeClass = "badge bg-warning";
+                                        }
+                                        else if (today > end)
+                                        {
+                                            status = "Hết hiệu lực";
+                                            badgeClass = "badge bg-secondary";
+                                        }
+                                        else
+                                        {
+                                            status = "Còn hiệu lực";
+                                            badgeClass = "badge bg-success";
+                                        }
+                                    }
+
+                                    <span class="@badgeClass">@status</span>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                                </td>
+
+                                <td>
+                                    <a href="/admin/coupon/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                    <a href="#" class="btn btn-sm btn-danger btnDelete" data-id="@item.Id">
+                                        Xóa
+                                    </a>
+                                </td>
+                            </tr>
+
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9">Không có dữ liệu</td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+        <div class="card-footer"></div>
+    </div>
+
+</section>
+
+@section scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '.btnActive', function (e) {
+                e.preventDefault();
+                var btn = $(this);
+                var id = btn.data("id");
+
+                $.ajax({
+                    url: '/Admin/Coupon/IsActive',
+                    type: 'POST',
+                    data: { id: id },
+                    success: function (rs) {
+                        if (rs.success) {
+                            if (rs.isActive) btn.html("<i class='fa fa-check text-success'></i>");
+                            else btn.html("<i class='fas fa-times text-danger'></i>");
+                        }
+                    }
+                });
+            });
+            $('body').on('click', '.btnDelete', function (e) {
+                e.preventDefault();
+                var id = $(this).data("id");
+
+                Swal.fire({
+                    title: "Bạn có chắc chắn?",
+                    text: "Bạn có muốn xoá mục này không?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Xoá",
+                    cancelButtonText: "Hủy"
+                }).then((result) => {
+
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/admin/coupon/delete',
+                            type: 'POST',
+                            data: { id: id },
+                            success: function (rs) {
+                                if (rs.success) {
+                                    $('#row_' + id).remove();
+
+                                    Swal.fire({
+                                        title: "Đã xoá!",
+                                        text: "Bản ghi đã được xoá thành công.",
+                                        icon: "success",
+                                        timer: 1500,
+                                        showConfirmButton: false
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                });
+            });
+
+        });
+    </script>
+}
+

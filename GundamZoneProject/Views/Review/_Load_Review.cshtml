@@ -1,0 +1,38 @@
+﻿﻿@model IEnumerable<GundamZoneProject.Models.EntityFrameWork.ReviewProduct>
+<div class="tab_title reviews_title">
+    <h4>Đánh giá (@ViewBag.Count)</h4>
+</div>
+
+<!-- User Review -->
+@if (Model != null && Model.Any())
+{
+    foreach (var item in Model)
+    {
+        <div class="user_review_container d-flex flex-column flex-sm-row">
+            <div class="user">
+                <div class="user_pic" style="width:60px;height:60px;">
+                    <img src="@(string.IsNullOrEmpty(item.Avatar)
+        ? Url.Content("~/Content/images/avatar-default.png")
+        : Url.Content(item.Avatar))"
+                         style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:1px solid #ddd;" />
+                </div>
+
+                @*<div class="user_rating">
+                    <ul class="star_rating">
+                        @Html.Raw(GundamZoneProject.Common.Common.HtmlRate(item.Rate))
+                    </ul>
+                </div>*@
+            </div>
+            <div class="review">
+                <div class="review_date">@item.CreatedDate.ToString("dd MM yyyy")</div>
+                <div class="user_name">@item.FullName</div>
+                <p>@item.Content</p>
+            </div>
+        </div>
+
+
+        
+
+    }
+
+}

@@ -1,0 +1,143 @@
+﻿/* ==============================
+   ORDER LIST – CLEAN MODERN UI
+============================== */
+
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+.card-header {
+    padding: 18px 24px;
+    background: #fff;
+    border-bottom: 1px solid #ededed;
+    border-radius: 14px 14px 0 0;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Table */
+.table {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .table thead tr {
+        background: #f7f7f7;
+        border-bottom: 1px solid #e6e6e6;
+    }
+
+    .table thead th {
+        font-weight: 700;
+        font-size: 14px;
+        padding: 14px 12px;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .table tbody td {
+        padding: 14px 12px;
+        vertical-align: middle;
+        font-size: 14px;
+    }
+
+/* Checkbox */
+input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    accent-color: #28a745;
+    cursor: pointer;
+    transform: translateY(2px);
+}
+
+/* Action buttons */
+.btn-primary, .btn-danger, .btn-warning {
+    border-radius: 8px;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    border: none;
+}
+
+    .btn-danger:hover {
+        background: #c0392b;
+    }
+
+/* Status colors */
+td span {
+    font-weight: 600;
+}
+
+    td span.status-1 {
+        color: #f39c12;
+    }
+    /* Chờ xử lý */
+    td span.status-2 {
+        color: #27ae60;
+    }
+    /* Đã thanh toán */
+    td span.status-3 {
+        color: #e67e22;
+    }
+    /* Chưa thanh toán */
+    td span.status-4 {
+        color: #e74c3c;
+    }
+/* Đã hủy */
+
+/* Pagination */
+.pagination {
+    margin-top: 20px;
+}
+
+    .pagination li a,
+    .pagination li span {
+        border: none !important;
+        padding: 8px 15px;
+        margin: 0 4px;
+        color: #333 !important;
+        border-radius: 8px !important;
+    }
+
+    .pagination li.active span {
+        background: #007bff !important;
+        color: white !important;
+    }
+
+    .pagination li a:hover {
+        background: #f0f0f0 !important;
+    }
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.status-1 {
+    background-color: #17a2b8;
+}
+/* Chờ xử lý - xanh dương nhạt */
+.status-2 {
+    background-color: #28a745;
+}
+/* Đã thanh toán - xanh lá */
+.status-3 {
+    background-color: #ffc107;
+    color: #000;
+}
+/* Chưa thanh toán - vàng */
+.status-4 {
+    background-color: #dc3545;
+}
+/* Đã hủy - đỏ */

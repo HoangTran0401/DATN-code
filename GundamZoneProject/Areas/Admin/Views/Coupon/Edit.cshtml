@@ -1,0 +1,157 @@
+﻿@model GundamZoneProject.Models.EntityFrameWork.Coupon
+
+@{
+    ViewBag.Title = "Cập nhật mã giảm giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/AdminCss/Coupon/edit-coupon.css" rel="stylesheet" />
+@section naviheader{
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/coupon" class="nav-link">Mã giảm giá</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Cập nhật</a>
+        </li>
+    </ul>
+}
+
+<!-- Header -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cập nhật mã giảm giá</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin/coupon">Mã giảm giá</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Thông tin mã giảm giá</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="bs-stepper-content">
+
+                @using (Html.BeginForm("Edit", "Coupon", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => x.Id)
+
+                    <div class="form-group">
+                        <label>Mã coupon</label>
+                        @Html.TextBoxFor(x => x.Code, new { @class = "form-control", @placeholder = "VD: SALE20" })
+                        @Html.ValidationMessageFor(x => x.Code, null, new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Loại giảm</label>
+                        @Html.DropDownListFor(x => x.DiscountType,
+                            new SelectList(new[] {
+                                new {Value = 1, Text = "Giảm theo %"},
+                                new {Value = 2, Text = "Giảm theo số tiền"}
+                            }, "Value", "Text", Model.DiscountType),
+                            "--Chọn loại giảm--",
+                            new { @class = "form-control" }
+                        )
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mức giảm</label>
+                        @Html.TextBox("DiscountValue", Convert.ToInt32(Model.DiscountValue), new { @class = "form-control" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Đơn hàng tối thiểu</label>
+                        @Html.TextBox("MinOrderValue", Model.MinOrderValue.ToString("N0"),
+     new { @class = "form-control money-input", autocomplete = "off" })
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày bắt đầu</label>
+                        @Html.TextBoxFor(x => x.StartDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày kết thúc</label>
+                        @Html.TextBoxFor(x => x.EndDate, "{0:yyyy-MM-dd}", new { type = "date", @class = "form-control" })
+                    </div>
+
+                    @*<div class="form-group">
+                            <label>Số lượng mã còn lại</label>
+                            @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "VD: 100" })
+                        </div>*@
+
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            @Html.CheckBoxFor(x => x.IsActive,
+                                new { @class = "custom-control-input", @id = "ckActive" })
+                            <label for="ckActive" class="custom-control-label">Kích hoạt</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <a href="/admin/coupon" class="btn btn-danger">Quay lại</a>
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="card-footer"></div>
+    </div>
+
+</section>
+@section scripts{
+    <script>
+    function formatMoneyInput(input) {
+        let value = input.value.replace(/\D/g, ""); // lấy chỉ số
+
+        if (value === "") {
+            input.value = "";
+            return;
+        }
+
+        // Format kiểu VN: 1.234.567
+        input.value = Number(value).toLocaleString("vi-VN");
+    }
+
+    // Tự format khi gõ
+    document.querySelectorAll('.money-input').forEach(function (input) {
+
+        input.addEventListener('keyup', function () {
+            formatMoneyInput(this);
+        });
+
+        input.addEventListener('change', function () {
+            formatMoneyInput(this);
+        });
+
+        // Khi submit form → remove dấu chấm
+        input.form?.addEventListener('submit', function () {
+            input.value = input.value.replace(/\./g, "");
+        });
+    });
+    </script>
+}

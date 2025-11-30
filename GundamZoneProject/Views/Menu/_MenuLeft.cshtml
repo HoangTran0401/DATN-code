@@ -1,0 +1,124 @@
+﻿@model IEnumerable<GundamZoneProject.Models.EntityFrameWork.ProductCategory>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    .accordion-header {
+        cursor: pointer;
+        font-weight: bold;
+        padding: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .accordion-header i {
+            transition: 0.3s ease;
+        }
+
+    .accordion-content {
+        display: none;
+        margin-left: 10px;
+    }
+
+        .accordion-content.open {
+            display: block;
+        }
+
+    .active > a {
+        color: #d12d2d !important;
+        font-weight: bold;
+
+    }
+    /* ÁP DỤNG FONT CHỈ CHO BỘ LỌC DANH MỤC + LỌC GIÁ */
+    .sidebar_section,
+    .sidebar_section *,
+    .sidebar_title,
+    .sidebar_title *,
+    #slider-range,
+    #amount,
+    .filter_button span {
+        font-family: 'Inter', sans-serif !important;
+        letter-spacing: 0.2px;
+    }
+
+</style>
+
+<script>
+    function toggleAccordion(id) {
+        var content = document.getElementById(id);
+        var icon = document.getElementById(id + "-icon");
+
+        if (content.classList.contains("open")) {
+            content.classList.remove("open");
+            icon.style.transform = "rotate(0deg)";
+        } else {
+            content.classList.add("open");
+            icon.style.transform = "rotate(90deg)";
+        }
+    }
+</script>
+
+<!-- ===================== DANH MỤC SẢN PHẨM ===================== -->
+@if (Model != null && Model.Any())
+{
+    <ul class="sidebar_categories">
+
+        <li class="accordion-header" onclick="toggleAccordion('cateList')">
+            Danh mục sản phẩm
+            <i id="cateList-icon"
+               class="fa fa-angle-right"
+               style="@(ViewBag.CateId != null ? "transform:rotate(90deg);" : "")">
+            </i>
+        </li>
+
+        <li style="list-style:none;">
+            <div id="cateList" class="accordion-content @(ViewBag.CateId != null ? "open" : "")">
+
+                <ul style="padding-left:15px;">
+                    @foreach (var item in Model)
+                    {
+                        <li class="@(ViewBag.CateId == item.Id ? "active" : "")" style="list-style:none;">
+                            <a href="/san-pham?cateId=@item.Id">
+                                @item.Title
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </li>
+
+    </ul>
+}
+
+<!-- ===================== NHÀ SẢN XUẤT ===================== -->
+@if (ViewBag.Manufacturers != null)
+{
+    <ul class="sidebar_categories" style="margin-top:20px;">
+
+        <li class="accordion-header" onclick="toggleAccordion('manuList')">
+            Nhà sản xuất
+            <i id="manuList-icon"
+               class="fa fa-angle-right"
+               style="@(ViewBag.ManuName != null ? "transform:rotate(90deg);" : "")">
+            </i>
+        </li>
+
+        <li style="list-style:none;">
+            <div id="manuList" class="accordion-content @(ViewBag.ManuName != null ? "open" : "")">
+
+                <ul style="padding-left:15px;">
+                    @foreach (var manu in ViewBag.Manufacturers)
+                    {
+                        <li class="@(ViewBag.ManuName == manu ? "active" : "")" style="list-style:none;">
+                            <a href="/san-pham?manu=@manu">
+                                @manu
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+            </div>
+        </li>
+
+    </ul>
+}

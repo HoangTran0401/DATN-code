@@ -1,0 +1,110 @@
+﻿/* ============================
+   CARD STYLE
+============================ */
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    padding: 18px 22px;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    border-radius: 14px 14px 0 0 !important;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* ============================
+   FORM STYLE
+============================ */
+.card-body {
+    padding: 22px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+    .form-group label {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 6px;
+        display: block;
+        color: #333;
+    }
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid #d6d6d6;
+    font-size: 14px;
+    transition: .25s;
+}
+
+    .form-control:focus {
+        border-color: #3c8dbc;
+        box-shadow: 0 0 0 2px rgba(60,141,188,0.15);
+    }
+
+    /* Readonly username hơi mờ nhẹ cho dễ nhận biết */
+    .form-control[readonly] {
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+    }
+
+/* ============================
+   SELECT2 MULTI ROLE
+============================ */
+.select2 {
+    width: 100% !important;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-radius: 8px;
+    border: 1px solid #d6d6d6;
+    min-height: 44px;
+    padding: 4px 6px;
+}
+
+    .select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+        border-radius: 999px;
+        padding: 3px 8px;
+        border: none;
+        background: #3c8dbc;
+        color: #fff;
+        font-size: 13px;
+    }
+
+/* ============================
+   BUTTON
+============================ */
+.btn {
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.btn-success {
+    background: #28a745;
+    border-color: #28a745;
+}
+
+    .btn-success:hover {
+        opacity: .9;
+    }
+
+/* ============================
+   PAGE HEADER
+============================ */
+.content-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+}

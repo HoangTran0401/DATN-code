@@ -1,0 +1,48 @@
+﻿
+
+.logo-gundamzone {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-decoration: none !important;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.gundam-red {
+    color: #ff3b3b;
+    text-shadow: 0 0 8px rgba(255, 50, 50, 0.9), 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.gundam-white {
+    color: #111 !important;
+    text-shadow: none !important;
+}
+
+.logo-gundamzone:hover {
+    transform: scale(1.05);
+    transition: 0.25s;
+}
+
+
+
+.main-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 250px; 
+    overflow-y: auto;
+    z-index: 1050;
+}
+
+/* Đẩy nội dung sang phải */
+.content-wrapper,
+.main-header,
+.main-footer {
+    margin-left: 250px;
+}
+
+

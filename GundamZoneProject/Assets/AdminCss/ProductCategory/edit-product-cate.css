@@ -1,0 +1,116 @@
+﻿/* ============================
+   CARD + HEADER
+============================ */
+.card {
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background: #fff;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eee;
+    border-radius: 14px 14px 0 0 !important;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* ============================
+   FORM STYLE
+============================ */
+.form-group {
+    margin-bottom: 18px;
+}
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        font-size: 14px;
+        color: #333;
+    }
+
+/* Input / Textbox */
+.form-control {
+    border-radius: 8px;
+    padding: 10px 14px;
+    border: 1px solid #d8d8d8;
+    font-size: 14px;
+    transition: .25s;
+}
+
+    .form-control:focus {
+        border-color: #3c8dbc;
+        box-shadow: 0 0 0 2px rgba(60,141,188,0.15);
+    }
+
+/* Image picker row */
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group-append input[type="button"] {
+    padding: 8px 12px;
+    border: none;
+    background: #3c8dbc;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+    .input-group-append input[type="button"]:hover {
+        background: #367fa9;
+    }
+
+/* Validation message */
+.text-danger {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* ============================
+   BUTTONS
+============================ */
+.btn {
+    border-radius: 8px !important;
+    padding: 8px 18px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+
+    .btn-primary:hover {
+        background-color: #367fa9;
+    }
+
+.btn-danger {
+    padding: 8px 18px;
+}
+
+/* ============================
+   BREADCRUMB + PAGE TITLE
+============================ */
+.content-header h1 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.breadcrumb {
+    background: transparent;
+}
+
+.breadcrumb-item a {
+    color: #3c8dbc;
+    font-weight: 500;
+}

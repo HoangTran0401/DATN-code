@@ -1,0 +1,253 @@
+﻿@model GundamZoneProject.Models.EntityFrameWork.Product
+@{
+    ViewBag.Title = "Detail";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
+<link href="~/Assets/CustomerCss/product-detail-custom.css" rel="stylesheet" />
+
+@if (Model != null)
+{
+    <div class="container single_product_container">
+        <div class="row">
+            <div class="col">
+
+                <div class="breadcrumbs d-flex flex-row align-items-center">
+                    <ul>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li>
+                            <a href="/san-pham">
+                                <i class="fa fa-angle-right"></i> Sản phẩm
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/danh-muc-san-pham/@Model.ProductCategory.Alias-@Model.ProductCategoryID">
+                                <i class="fa fa-angle-right"></i>@Model.ProductCategory.Title
+                            </a>
+                        </li>
+                        <li class="active"><a href="#"><i class="fa fa-angle-right"></i>@Model.Title</a></li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- IMAGE -->
+            <div class="col-lg-7">
+                @if (Model.ProductImage != null && Model.ProductImage.Any())
+                {
+                    var defaultImg = Model.ProductImage.FirstOrDefault(x => x.IsDefault);
+                    var mainImage = defaultImg != null ? Url.Content(defaultImg.Image) : Url.Content("~/Content/no-image.png");
+
+                    <div class="single_product_pics">
+                        <div class="row">
+                            <div class="col-lg-12 image_col">
+                                <div class="single_product_image">
+                                    <div class="single_product_image_background" style="background-image: url('@mainImage')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- INFO -->
+            <div class="col-lg-5">
+                <div class="product_details">
+                    <div class="product_details_title">
+                        <h2>@Model.Title</h2>
+
+                        @if (!string.IsNullOrEmpty(Model.Manufacturer))
+                        {
+                            <p style="margin: 5px 0 10px 0; font-size:16px; color:#555;">
+                                <strong>Nhà sản xuất:</strong> @Model.Manufacturer
+                            </p>
+                        }
+                    </div>
+
+                    @if (Model.PriceSale > 0)
+                    {
+                        <div class="original_price">@GundamZoneProject.Common.Common.FormatNumber(Model.Price)</div>
+                        <div class="product_price">@GundamZoneProject.Common.Common.FormatNumber(Model.PriceSale)</div>
+                    }
+                    else
+                    {
+                        <div class="product_price">@GundamZoneProject.Common.Common.FormatNumber(Model.Price)</div>
+                    }
+
+                    <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center">
+                        <span>Số lượng:</span>
+
+                        <div class="quantity_selector_outer d-flex align-items-center">
+                            <span class="minus_custom quantity_btn"><i class="fa fa-minus"></i></span>
+                            <div class="quantity_display" id="quantity_value">1</div>
+                            <span class="plus_custom quantity_btn"><i class="fa fa-plus"></i></span>
+                        </div>
+
+                        <span id="maxQuantity" style="display:none;">@Model.Quantity</span>
+
+                        @if (Model.Quantity > 0)
+                        {
+                            <div class="red_button add_to_cart_button">
+                                <a href="javascript:void(0)" class="btnAddToCart" data-id="@Model.Id">Thêm vào giỏ hàng</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="color:#dc3545; font-weight:bold; margin-left:15px;">Hết hàng</div>
+                        }
+                    </div>
+
+                    <div class="product_extra_information" style="margin-top:20px; font-size:15px; line-height:1.8;">
+                        <p>
+                            <strong>Tình trạng:</strong>
+                            @(Model.Quantity > 0
+                                ? Html.Raw("<span style='color:#28a745;'>Còn hàng</span>")
+                                : Html.Raw("<span style='color:#dc3545;'>Hết hàng</span>"))
+                        </p>
+
+                        <p><strong>Tiện ích khi mua hàng:</strong></p>
+                        <ul style="padding-left:20px;">
+                            <li><i class="fa fa-check-circle" style="color:#28a745;"></i> Đổi trả hàng trong 7 ngày</li>
+                            <li><i class="fa fa-check-circle" style="color:#28a745;"></i> Hàng chính hãng</li>
+                            <li><i class="fa fa-check-circle" style="color:#28a745;"></i> Cam kết giá tốt – sản phẩm mới 100%</li>
+                            <li><i class="fa fa-check-circle" style="color:#28a745;"></i> Hỗ trợ bảo hành khớp gãy (tuỳ mẫu)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs_section_container">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="tabs_container">
+                        <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                            <li class="tab active" data-active-tab="tab_1"><span>Chi tiết sản phẩm</span></li>
+                            <li class="tab" data-active-tab="tab_3"><span>Đánh giá</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <!-- TAB 1: CHI TIẾT -->
+                    <div id="tab_1" class="tab_container active">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <!-- BOX THÔNG TIN -->
+                                <div class="info-box">
+                                    @*<p><strong>Mã sản phẩm:</strong> @Model.Id</p>*@
+                                    <p><strong>Danh mục:</strong> @Model.ProductCategory.Title</p>
+                                    @if (!string.IsNullOrEmpty(Model.Manufacturer))
+                                    {
+                                        <p><strong>Nhà sản xuất:</strong> @Model.Manufacturer</p>
+                                    }
+                                    <p><strong>Tình trạng:</strong> @(Model.Quantity > 0 ? "Còn hàng" : "Hết hàng")</p>
+                                </div>
+
+                                <div class="product_detail_content">
+                                    @Html.Raw(Model.Detail)
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3 -->
+                    <div id="tab_3" class="tab_container">
+                        <div class="row">
+
+                            <div class="col-lg-6 reviews_col">
+                                @Html.Action("_Load_Review", "Review", new { productId = Model.Id })
+                            </div>
+
+                            <div class="col-lg-6 add_review_col">
+                                @Html.Action("_Review", "Review", new { productId = Model.Id })
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+            var maxQuantity = parseInt($("#maxQuantity").text());
+
+            // ============================
+            // ADD TO CART (chặn double-binding)
+            // ============================
+            $('body').off('click', '.btnAddToCart').on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+
+                var id = $(this).data('id');
+                var quantity = parseInt($("#quantity_value").text());
+
+                if (quantity > maxQuantity) {
+                    Swal.fire("Lỗi", "Số lượng vượt quá kho!", "error");
+                    return false;
+                }
+
+                $.post('/shoppingcart/addtocart', { id: id, quantity: quantity }, function (rs) {
+                    if (rs.Success) {
+                        Swal.fire({
+                            title: "Thêm vào giỏ hàng!",
+                            text: rs.msg,
+                            icon: "success",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        $('#checkout_items').html(rs.Count);
+                    } else {
+                        Swal.fire("Lỗi", rs.msg, "error");
+                    }
+                });
+            });
+
+            // ============================
+            // +
+            // ============================
+            $('.plus_custom').off('click').on('click', function () {
+                var current = parseInt($("#quantity_value").text());
+                if (current < maxQuantity) {
+                    $("#quantity_value").text(current + 1);
+                } else {
+                    Swal.fire("Thông báo", "Số lượng vượt quá tồn kho (" + maxQuantity +")!", "warning");
+                }
+            });
+
+            // ============================
+            // -
+            // ============================
+            $('.minus_custom').off('click').on('click', function () {
+                var current = parseInt($("#quantity_value").text());
+                if (current > 1) {
+                    $("#quantity_value").text(current - 1);
+                }
+            });
+        });
+    </script>
+
+    <script src="~/Content/assets/js/single_custom.js"></script>
+}
+

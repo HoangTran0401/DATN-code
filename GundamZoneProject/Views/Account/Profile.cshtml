@@ -1,0 +1,173 @@
+﻿@model GundamZoneProject.Models.CreateAccountViewModel
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+
+<style>
+    .profile-container {
+        margin-top: 160px;
+        padding-bottom: 60px;
+    }
+
+    .profile-card {
+        border: 1px solid #e3e3e3;
+        border-radius: 10px;
+        padding: 25px;
+        background: #fff;
+    }
+
+    .profile-menu {
+        border: 1px solid #e3e3e3;
+        border-radius: 10px;
+        background: #fff;
+        padding: 20px;
+    }
+
+        .profile-menu ul {
+            padding-left: 0;
+            list-style: none;
+        }
+
+            .profile-menu ul li a {
+                display: block;
+                padding: 12px 15px;
+                border-radius: 6px;
+                color: #333;
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+                .profile-menu ul li a.active,
+                .profile-menu ul li a:hover {
+                    background-color: #dc3545;
+                    color: #fff;
+                }
+
+    .form-control {
+        height: 42px;
+    }
+
+    .save-btn {
+        background: #dc3545;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 6px;
+        color: #fff;
+        font-weight: 600;
+        margin-top: 15px;
+    }
+</style>
+
+<div class="container profile-container">
+    <div class="row">
+
+        <!-- MENU TRÁI -->
+        <div class="col-md-3">
+            <div class="profile-menu text-center">
+
+                @{
+                    var fullName = (Model?.FullName ?? "").Trim();
+                    var initial = fullName.Length > 0 ? fullName.Substring(0, 1).ToUpper() : "U";
+                }
+
+                <div>
+                    <!-- Avatar -->
+                    @if (!string.IsNullOrEmpty(Model.AvatarPath))
+                    {
+                        <img id="avatarPreview" src="@Model.AvatarPath"
+                             style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:2px solid #dc3545; cursor:pointer;" />
+                    }
+                    else
+                    {
+                        <div id="avatarPreview"
+                             style="width:90px; height:90px; background:#dc3545; color:#fff; border-radius:50%; line-height:90px;
+                            margin:auto; font-size:30px; cursor:pointer;">
+                            @initial
+                        </div>
+                    }
+                </div>
+
+                <p class="mt-2" style="font-weight:600;">
+                    @(!string.IsNullOrWhiteSpace(fullName) ? fullName : Model.Email)
+                </p>
+
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="col-md-9">
+            <div class="profile-card">
+
+                @using (Html.BeginForm("PostProfile", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(false)
+
+                    <!-- input upload phải nằm trong form -->
+                    <input type="file" id="avatarInput" name="AvatarFile" accept="image/*" style="display:none" />
+
+                    <input type="hidden" name="AvatarPath" value="@Model.AvatarPath" />
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Họ tên</label>
+                            <input type="text" class="form-control" name="FullName" value="@Model.FullName" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <input type="text" class="form-control" name="Email" value="@Model.Email" readonly />
+                        </div>
+
+                        <div class="col-md-6 mt-3">
+                            <label>Số điện thoại</label>
+                            <input type="text" class="form-control" name="Phone" value="@Model.Phone" />
+                        </div>
+
+                        <div class="col-md-6 mt-3">
+                            <label>Tên đăng nhập</label>
+                            <input type="text" class="form-control" name="UserName" value="@Model.UserName" readonly />
+                        </div>
+
+                        <!-- ĐỊA CHỈ -->
+                        <div class="col-md-12 mt-3">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" name="Address" value="@Model.Address" />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="save-btn">Cập nhật</button>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // Bấm vào avatar → kích hoạt input file
+    document.getElementById("avatarPreview").onclick = function () {
+        document.getElementById("avatarInput").click();
+    };
+
+    // Khi chọn ảnh → đổi avatar preview
+    document.getElementById("avatarInput").onchange = function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const url = URL.createObjectURL(file);
+
+        let avatar = document.getElementById("avatarPreview");
+
+        if (avatar.tagName.toLowerCase() === "img") {
+            avatar.src = url;
+        } else {
+            avatar.outerHTML =
+                `<img id="avatarPreview" src="${url}" style="width:90px; height:90px; border-radius:50%; object-fit:cover; border:2px solid #dc3545; cursor:pointer;" />`;
+        }
+    };
+</script>

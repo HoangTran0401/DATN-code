@@ -1,0 +1,125 @@
+﻿@model IEnumerable<GundamZoneProject.Models.EntityFrameWork.Product>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="~/Assets/CustomerCss/partial-bestseller.css" rel="stylesheet" />
+
+@if (Model != null && Model.Any())
+{
+    <div class="sale-block-wrapper">
+        <div class="best_sellers">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col text-center">
+                        <div class="section_title new_arrivals_title">
+                            <h2>Sản phẩm mới</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+
+                        <div class="product_slider_container">
+                            <!-- GÁN ID RIÊNG CHO SLIDER -->
+                            <div id="slider-new" class="owl-carousel owl-theme">
+
+                                @foreach (var item in Model)
+                                {
+                                    var strImage = "";
+                                    var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                                    if (img != null)
+                                    {
+                                        strImage = img.Image;
+                                    }
+
+                                    <div class="product-item">
+                                        <div class="product discount product_filter">
+
+                                            <div class="product_image">
+                                                <img src="@strImage" alt="@item.Title" />
+                                            </div>
+
+                                            <div class="product_info">
+                                                <h6 class="product_name">
+                                                    <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                                                        @item.Title
+                                                    </a>
+                                                </h6>
+
+                                                @if (item.PriceSale > 0)
+                                                {
+                                                    <div class="product_price">
+                                                        @GundamZoneProject.Common.Common.FormatNumber(item.PriceSale, 0)
+                                                        <span>@GundamZoneProject.Common.Common.FormatNumber(item.Price, 0)</span>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="product_price">
+                                                        @GundamZoneProject.Common.Common.FormatNumber(item.Price, 0)
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        </div>
+
+                                        <div class="red_button add_to_cart_button">
+                                            <a href="#" class="btnAddToCart" data-id="@item.Id">
+                                                Thêm vào giỏ hàng
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+
+                            <!-- NAV RIÊNG -->
+                            <div id="nav-new-left" class="product_slider_nav_left product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </div>
+
+                            <div id="nav-new-right" class="product_slider_nav_right product_slider_nav d-flex align-items-center justify-content-center flex-column">
+                                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+<!-- SCRIPT RIÊNG CHO SLIDER HÀNG MỚI -->
+<script>
+    $(document).ready(function () {
+
+        var sliderNew = $("#slider-new");
+
+        sliderNew.owlCarousel({
+            loop: true,
+            margin: 20,
+            autoplay: false,
+            nav: false,
+            dots: false,
+            responsive: {
+                0: { items: 2 },
+                600: { items: 3 },
+                1000: { items: 5 }
+            }
+        });
+
+        // NAV HOẠT ĐỘNG ĐỘC LẬP
+        $("#nav-new-left").click(function () {
+            sliderNew.trigger("prev.owl.carousel");
+        });
+
+        $("#nav-new-right").click(function () {
+            sliderNew.trigger("next.owl.carousel");
+        });
+
+    });
+</script>

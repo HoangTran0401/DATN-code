@@ -1,0 +1,28 @@
+﻿
+body.login-page {
+    background: #ffffff !important;
+    background-attachment: fixed;
+    position: relative;
+}
+
+
+.brand-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 32px;
+    text-decoration: none !important;
+}
+
+.gundam-red {
+    color: #ff3b3b;
+    text-shadow: 0 0 8px rgba(255, 59, 59, 0.8);
+}
+
+.gundam-white {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
+
+

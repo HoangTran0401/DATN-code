@@ -1,0 +1,114 @@
+﻿@using PagedList
+@using PagedList.Mvc
+@model IPagedList<GundamZoneProject.Models.EntityFrameWork.Product>
+
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/single_responsive.css">
+<link href="~/Assets/CustomerCss/search-index.css" rel="stylesheet" />
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col">
+
+            <div class="breadcrumbs d-flex flex-row align-items-center mt-4">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active"><a href="#"><i class="fa fa-angle-right"></i> Kết quả tìm kiếm</a></li>
+                </ul>
+            </div>
+
+            <h3 class="mt-3">Kết quả cho: <span style="color:red">@ViewBag.Keyword</span></h3>
+            <hr />
+
+            <p class="mt-2 mb-3">
+                <i class="fa fa-search"></i> Đã tìm thấy <strong>@Model.TotalItemCount</strong> kết quả phù hợp
+            </p>
+
+            @if (Model == null || Model.Count == 0)
+            {
+                <p>Không tìm thấy sản phẩm nào.</p>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            var defaultImg = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                            var imgPath = defaultImg != null ? Url.Content(defaultImg.Image) : Url.Content("~/Content/no-image.png");
+
+                            <div class="col-md-3 col-sm-6 mt-4">
+                                <div class="card shadow-sm border-0">
+
+                                    <a href="/chi-tiet/@item.Alias-p@item.Id">
+                                        <img src="@imgPath" class="img-fluid" alt="@item.Title" />
+                                    </a>
+
+                                    <div class="card-body text-center">
+                                        <h6 class="product_name">
+                                            <a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a>
+                                        </h6>
+
+                                        <div class="product_price">
+                                            @GundamZoneProject.Common.Common.FormatNumber(item.Price, 0) đ
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="mt-4 d-flex justify-content-center">
+    @Html.PagedListPager(
+        Model,
+        page => Url.Action("Search", new { keyword = ViewBag.Keyword, page }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            ContainerDivClasses = new[] { "pagination" },
+            UlElementClasses = new[] { "pagination" }
+        }
+    )
+</div>
+<style>
+    .pagination li {
+        margin: 0 3px;
+    }
+
+        .pagination li a,
+        .pagination li span {
+            display: block;
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .pagination li.active span {
+            background-color: #007bff;
+            color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination li a:hover {
+            background-color: #f0f0f0;
+        }
+</style>
+
+@section scripts{
+    <script src="~/Content/assets/js/single_custom.js"></script>
+}

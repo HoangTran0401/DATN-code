@@ -1,0 +1,54 @@
+﻿@model GundamZoneProject.Models.EntityFrameWork.Order
+@{
+    ViewBag.Title = "Cập nhật đơn hàng";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+
+<div class="container py-4">
+
+    <h4><i class="fas fa-edit"></i> Cập nhật đơn hàng</h4>
+    <hr />
+
+    <form method="post" action="/admin/order/update">
+
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="mb-3">Thông tin đơn</h5>
+
+                <div class="form-group">
+                    <label>Mã đơn hàng</label>
+                    <input type="text" class="form-control" value="@Model.Code" disabled />
+                </div>
+
+                <div class="form-group">
+                    <label>Trạng thái đơn hàng</label>
+                    <select name="Status" class="form-control">
+                        <option value="1" @(Model.Status == 1 ? "selected" : "")>Chờ xử lý</option>
+                        <option value="2" @(Model.Status == 2 ? "selected" : "")>Đã thanh toán</option>
+                        <option value="3" @(Model.Status == 3 ? "selected" : "")>Chưa thanh toán</option>
+                        <option value="4" @(Model.Status == 4 ? "selected" : "")>Hủy đơn</option>
+                    </select>
+                </div>
+
+                @*<div class="form-group">
+                    <label>Phương thức thanh toán</label>
+                    <select name="TypePayment" class="form-control">
+                        <option value="1" @(Model.TypePayment == 1 ? "selected" : "")>COD</option>
+                        <option value="2" @(Model.TypePayment == 2 ? "selected" : "")>Chuyển khoản</option>
+                    </select>
+                </div>*@
+
+            </div>
+        </div>
+
+        <div class="text-right mt-3">
+            <a href="/admin/order/view/@Model.Id" class="btn btn-secondary">Hủy</a>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+
+    </form>
+</div>

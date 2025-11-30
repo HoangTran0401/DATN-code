@@ -1,0 +1,43 @@
+﻿/* ==== FIX UI GUNDAMZONE ==== */
+
+/* Header gọn */
+.main_nav_container .navbar {
+    height: 70px !important;
+}
+
+.navbar_menu li a {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.3px;
+}
+
+/* Logo rõ */
+.logo_container a {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+}
+
+/* Slider ảnh đẹp */
+.home_slider img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Khoảng cách New Arrivals */
+.new_arrivals {
+    margin-top: 40px !important;
+}
+
+/* Section title đẹp */
+.section_title h2, .new_arrivals_title h2 {
+    font-size: 36px !important;
+    font-weight: 700 !important;
+}
+
+.section_title::after {
+    width: 70px;
+    height: 4px;
+    background: #fe4c50;
+}

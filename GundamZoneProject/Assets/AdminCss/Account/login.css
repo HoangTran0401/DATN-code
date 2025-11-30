@@ -1,0 +1,93 @@
+﻿/* =============================
+   WRAPPER
+============================= */
+.login-page, .register-page {
+    background: linear-gradient(135deg, #3c8dbc 0%, #1f6ba7 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+/* =============================
+   LOGIN CARD
+============================= */
+.login-box {
+    width: 400px;
+    max-width: 100%;
+}
+
+.login-card-body {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.login-box-msg {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+/* =============================
+   INPUT GROUP
+============================= */
+.input-group .form-control {
+    border-radius: 8px !important;
+    height: 45px;
+    font-size: 15px;
+    padding-left: 14px;
+}
+
+.input-group-text {
+    border-radius: 8px;
+    background: #f4f6f9;
+    border: 1px solid #d6d6d6;
+}
+
+    /* Icon màu đẹp hơn */
+    .input-group-text span {
+        color: #3c8dbc;
+    }
+
+/* =============================
+   CHECKBOX
+============================= */
+.icheck-primary input {
+    margin-right: 4px;
+    transform: scale(1.2);
+}
+
+.icheck-primary label {
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+
+
+/* =============================
+   BUTTON LOGIN
+============================= */
+.btn-primary {
+    background: #3c8dbc;
+    border-color: #3c8dbc;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+    .btn-primary:hover {
+        background: #367fa9;
+    }
+
+/* =============================
+   RESPONSIVE
+============================= */
+@media(max-width: 480px) {
+    .login-card-body {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,120 @@
+﻿
+body, td, th {
+    font-family: 'Be Vietnam Pro', sans-serif !important;
+}
+
+.coupon-container {
+    margin: 200px auto;
+    max-width: 1150px;
+}
+
+.coupon-title-inside {
+    text-align: center !important; /* Căn giữa */
+    font-size: 40px !important; /* Tăng kích thước chữ */
+    font-weight: 900 !important; /* Đậm */
+    padding: 25px 0; /* Tạo khoảng cách */
+    color: #ff3b3b !important; /* Màu đỏ giống style cũ */
+    text-transform: uppercase; /* Viết hoa */
+    letter-spacing: 2px; /* Giãn chữ */
+}
+
+.coupon-title {
+    font-size: 40px;
+    font-weight: 900;
+    color: #ff3b3b;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.coupon-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+}
+
+    .coupon-table th {
+        background: #fafafa;
+        padding: 16px;
+        font-weight: 700;
+        font-size: 16px;
+        color: #333;
+        text-transform: uppercase;
+        border-bottom: 1px solid #eee;
+    }
+
+    .coupon-table td {
+        padding: 18px 20px;
+        font-size: 16px;
+        color: #333;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+.coupon-row:hover {
+    background: #fdfdfd;
+    transition: 0.2s ease;
+}
+
+.code-wrapper {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    justify-content: space-between;
+}
+
+.coupon-code {
+    font-weight: 700;
+    font-size: 17px;
+    color: #222;
+    white-space: nowrap;
+}
+
+.btn-copy {
+    background: #ff3b3b;
+    color: white;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 600;
+}
+
+    .btn-copy:hover {
+        background: #d92121;
+        box-shadow: 0 2px 6px rgba(255,0,0,0.4);
+    }
+
+.copy-success {
+    color: #28a745;
+    font-size: 12px;
+    font-weight: 600;
+    display: none;
+}
+
+.discount-tag {
+    font-weight: 700;
+    color: #ff3b3b;
+    font-size: 16px;
+}
+
+.date-expired {
+    font-weight: 600;
+    color: #555;
+}
+
+.status-expired {
+    color: #ff3b3b;
+    font-weight: 700;
+}
+
+.status-valid {
+    color: #28a745;
+    font-weight: 700;
+}
+
+

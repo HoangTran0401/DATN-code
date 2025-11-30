@@ -1,0 +1,115 @@
+﻿@model PagedList.PagedList<GundamZoneProject.Models.EntityFrameWork.Import>
+@using PagedList.Mvc;
+@using PagedList;
+
+@{
+    ViewBag.Title = "Lịch sử nhập hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Assets/AdminCss/Import/history-import.css" rel="stylesheet" />
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/import" class="nav-link">Nhập hàng</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Lịch sử nhập hàng</a>
+        </li>
+    </ul>
+}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lịch sử nhập hàng</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Lịch sử nhập hàng</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Danh sách lịch sử nhập hàng</h3>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Ảnh</th>
+                        <th>Sản phẩm</th>
+                        <th>Tồn kho trước khi nhập</th>
+                        <th>Số lượng nhập</th>
+                        <th>Tồn kho sau khi nhập</th>
+                        <th>Ngày nhập</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int stt = 1;
+                    }
+                    @foreach (var item in Model)
+                    {
+                        // lấy ảnh mặc định
+                        var img = item.Product.ProductImage
+                            ?.FirstOrDefault(x => x.IsDefault)?.Image;
+
+                        <tr>
+                            <td>@stt</td>
+
+                            <td>
+                                @if (!string.IsNullOrEmpty(img))
+                                {
+                                    <img src="@img" width="50" />
+                                }
+                                else
+                                {
+                                    <span style="color:#888">Không có ảnh</span>
+                                }
+                            </td>
+
+                            <td>@item.Product.Title</td>
+                            <td>@item.OldStock</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.NewStock</td>
+                            <td>@item.ImportDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        </tr>
+                        stt++;
+                    }
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-6 back-btn-col">
+                    <div class="form-group">
+                        <a href="/Admin/Import" class="btn btn-danger btn-sm">
+                            Quay lại
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-6" style="text-align:right;">
+                    @Html.PagedListPager(Model, page => Url.Action("History", new { page }))
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</section>

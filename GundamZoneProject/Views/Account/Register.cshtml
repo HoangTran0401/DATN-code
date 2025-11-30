@@ -1,0 +1,71 @@
+﻿@model GundamZoneProject.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Đăng ký";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<link href="~/Assets/CustomerCss/register.css" rel="stylesheet" />
+<div class="register-wrapper">
+    <h2 class="register-title">Đăng ký</h2>
+    <h4 class="register-subtitle">Tạo tài khoản mới</h4>
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password)
+            <div class="password-wrapper">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "passwordInput" })
+                <span class="toggle-password" onclick="togglePassword('passwordInput', this)">
+                    <i class="fa fa-eye"></i>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword)
+            <div class="password-wrapper">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @id = "confirmPasswordInput" })
+                <span class="toggle-password" onclick="togglePassword('confirmPasswordInput', this)">
+                    <i class="fa fa-eye"></i>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+
+
+        <button type="submit" class="btn-register">Đăng ký</button>
+    }
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        function togglePassword(inputId, el) {
+            const input = document.getElementById(inputId);
+            const icon = el.querySelector("i");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+    </script>
+
+}

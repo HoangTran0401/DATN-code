@@ -1,0 +1,344 @@
+﻿@{
+    ViewBag.Title = "Thống kê";
+}
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                <i class="fas fa-bars"></i>
+            </a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="@Url.Action("Index","Overview")" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/statistical" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Thống kê</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Thống kê</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Bộ lọc ngày -->
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Lọc theo thời gian</h3>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+            <!-- Chọn 1 ngày -->
+            <div class="col-md-4">
+                <label>Chọn ngày</label>
+                <input type="date" id="pickDate" class="form-control">
+            </div>
+
+            <!-- Chọn từ ngày -->
+            <div class="col-md-4">
+                <label>Từ ngày</label>
+                <input type="date" id="fromDate" class="form-control">
+            </div>
+
+            <!-- Chọn đến ngày -->
+            <div class="col-md-4">
+                <label>Đến ngày</label>
+                <input type="date" id="toDate" class="form-control">
+            </div>
+
+        </div>
+
+        <!-- Thống kê theo tháng và tuần -->
+        <div class="row mt-3">
+
+            <!-- Chọn tháng -->
+            <div class="col-md-4">
+                <label>Chọn tháng</label>
+                <select id="selectMonth" class="form-control">
+                    <option value="">-- Chọn tháng --</option>
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        <option value="@i">Tháng @i</option>
+                    }
+                </select>
+            </div>
+
+            <!-- Chọn tuần -->
+            <div class="col-md-4">
+                <label>Chọn tuần</label>
+                <select id="selectWeek" class="form-control">
+                    <option value="">-- Chọn tuần --</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="mt-3">
+            <button id="btnFilter" class="btn btn-success">
+                <i class="fa fa-filter"></i> Lọc dữ liệu
+            </button>
+            <button id="btnReset" class="btn btn-secondary ml-2">
+                <i class="fa fa-sync"></i> Reset
+            </button>
+        </div>
+    </div>
+</div>
+
+<section class="content">
+    <div class="card">
+        <div class="card-header"><h3 class="card-title">Thống kê doanh thu</h3></div>
+
+        <div class="card-body">
+            <div class="row">
+
+                <!-- BIỂU ĐỒ -->
+                <div class="col-md-8">
+                    <canvas id="barChart" style="height:300px;"></canvas>
+                </div>
+
+                <!-- BẢNG -->
+                <div class="col-md-4">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ngày</th>
+                                <th>Doanh thu</th>
+                                <th>Lợi nhuận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="load_data"></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+    <script src="~/Content/Client/plugins/chart.js/Chart.min.js"></script>
+
+    <script>
+        // ===============================
+        // RESET LOGIC ===================
+        // ===============================
+
+        // Khi chọn tháng hoặc tuần → reset phần chọn ngày
+        $("#selectMonth, #selectWeek").change(function () {
+            $("#pickDate").val("");
+            $("#fromDate").val("");
+            $("#toDate").val("");
+        });
+
+        // Khi chọn từ ngày hoặc đến ngày → reset tháng + tuần
+        $("#fromDate, #toDate").change(function () {
+            $("#selectMonth").val("");
+            $("#selectWeek").html('<option value="">-- Chọn tuần --</option>');
+        });
+
+        // Khi chọn 1 ngày → reset cả tháng + tuần + from/to
+        $("#pickDate").change(function () {
+            $("#fromDate").val("");
+            $("#toDate").val("");
+            $("#selectMonth").val("");
+            $("#selectWeek").html('<option value="">-- Chọn tuần --</option>');
+        });
+
+        let barChart = null;
+
+        // ----------------------------
+        // SINH TUẦN THEO THÁNG
+        // ----------------------------
+        $("#selectMonth").on("change", function () {
+            let month = $(this).val();
+            let year = new Date().getFullYear();
+
+            $("#selectWeek").val("");
+
+            if (month === "") {
+                $("#selectWeek").html('<option value="">-- Chọn tuần --</option>');
+                return;
+            }
+
+            // ngày cuối tháng
+            let lastDay = new Date(year, month, 0).getDate();
+
+            let ranges = [
+                [1, Math.min(7, lastDay)],
+                [8, Math.min(14, lastDay)],
+                [15, Math.min(21, lastDay)],
+                [22, lastDay]
+            ];
+
+            let html = '<option value="">-- Chọn tuần --</option>';
+            for (let i = 0; i < 4; i++) {
+                if (ranges[i][0] <= lastDay) {
+                    html += `<option value="${i + 1}">Tuần ${i + 1} (${ranges[i][0]} - ${ranges[i][1]})</option>`;
+                }
+            }
+            $("#selectWeek").html(html);
+        });
+
+        // ----------------------------
+        // FILTER
+        // ----------------------------
+        $("#btnFilter").click(function () {
+
+            let pick = $("#pickDate").val();
+            let from = $("#fromDate").val();
+            let to = $("#toDate").val();
+
+            let month = $("#selectMonth").val();
+            let week = $("#selectWeek").val();
+
+            // ----- Trường hợp chọn 1 ngày -----
+            if (pick !== "") {
+                from = pick;
+                to = pick;
+            }
+
+            let year = new Date().getFullYear();
+
+            // ----- Trường hợp chọn THÁNG nhưng KHÔNG chọn tuần -----
+            if (month !== "" && week === "") {
+                let lastDay = new Date(year, month, 0).getDate();
+
+                month = month.toString().padStart(2, '0');
+                from = `${year}-${month}-01`;
+                to = `${year}-${month}-${lastDay}`;
+            }
+
+            // ----- Trường hợp chọn THÁNG + TUẦN -----
+            if (month !== "" && week !== "") {
+                let lastDay = new Date(year, month, 0).getDate();
+
+                let startDay = 1, endDay = lastDay;
+
+                switch (week) {
+                    case "1": startDay = 1; endDay = Math.min(7, lastDay); break;
+                    case "2": startDay = 8; endDay = Math.min(14, lastDay); break;
+                    case "3": startDay = 15; endDay = Math.min(21, lastDay); break;
+                    case "4": startDay = 22; endDay = lastDay; break;
+                }
+
+                month = month.toString().padStart(2, '0');
+
+                from = `${year}-${month}-${String(startDay).padStart(2, '0')}`;
+                to = `${year}-${month}-${String(endDay).padStart(2, '0')}`;
+            }
+
+            // validate
+            if (from !== "" && to === "") {
+                alert("Vui lòng chọn 'Đến ngày'");
+                return;
+            }
+
+            load_chart(from, to);
+        });
+
+
+        // ----------------------------
+        // LOAD CHART
+        // ----------------------------
+        function load_chart(fromDate = "", toDate = "") {
+
+            let arrDoanhThu = [];
+            let arrLoiNhuan = [];
+            let arrDate = [];
+
+            $.ajax({
+                url: '/Admin/Statistical/GetStatistical',
+                type: 'GET',
+                data: { fromDate: fromDate, toDate: toDate },
+
+                success: function (rs) {
+
+                    $.each(rs.Data, function (i, item) {
+                        arrDate.push(item.Date);
+                        arrDoanhThu.push(item.DoanhThu);
+                        arrLoiNhuan.push(item.LoiNhuan);
+                    });
+
+                    var chartData = {
+                        labels: arrDate,
+                        datasets: [
+                            {
+                                label: 'Doanh thu',
+                                backgroundColor: '#b3c6ff',
+                                borderColor: '#4d79ff',
+                                data: arrDoanhThu
+                            },
+                            {
+                                label: 'Lợi nhuận',
+                                backgroundColor: '#99e6b3',
+                                borderColor: '#33cc66',
+                                data: arrLoiNhuan
+                            }
+                        ]
+                    };
+
+                    var ctx = document.getElementById("barChart").getContext("2d");
+
+                    if (barChart != null) barChart.destroy();
+
+                    barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: chartData,
+                        options: { responsive: true, maintainAspectRatio: false }
+                    });
+
+                    load_table(rs.Data);
+                }
+            });
+        }
+
+        // ----------------------------
+        // HIỂN THỊ BẢNG
+        // ----------------------------
+        function load_table(data) {
+            let str = "";
+            $.each(data, function (i, item) {
+                str += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${item.Date}</td>
+                        <td>${item.DoanhThu.toLocaleString()}</td>
+                        <td>${item.LoiNhuan.toLocaleString()}</td>
+                    </tr>`;
+            });
+            $("#load_data").html(str);
+        }
+
+        // ----------------------------
+        // RESET
+        // ----------------------------
+        $("#btnReset").on("click", function () {
+            $("#pickDate").val("");
+            $("#fromDate").val("");
+            $("#toDate").val("");
+            $("#selectMonth").val("");
+            $("#selectWeek").html('<option value="">-- Chọn tuần --</option>');
+            load_chart();
+        });
+
+        // Load khi mở trang
+        $(function () { load_chart(); });
+
+    </script>
+}

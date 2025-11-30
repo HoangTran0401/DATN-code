@@ -1,0 +1,274 @@
+﻿@model PagedList.PagedList<GundamZoneProject.Models.EntityFrameWork.Product>
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<link href="~/Assets/CustomerCss/index-product.css" rel="stylesheet" />
+
+
+<div class="container product_section_container">
+
+    <!-- Breadcrumbs DI CHUYỂN LÊN TRÊN -->
+    <div class="row">
+        <div class="col-12">
+            <div class="breadcrumbs d-flex flex-row align-items-center mb-3">
+                <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li>
+                        <a href="/san-pham">
+                            <i class="fa fa-angle-right"></i> Sản phẩm
+                        </a>
+                    </li>
+
+                    @if (ViewBag.CateName != null)
+                    {
+                        <li class="active">
+                            <a href="/danh-muc-san-pham/@ViewBag.CateAlias-@ViewBag.CateId">
+                                <i class="fa fa-angle-right"></i> @ViewBag.CateName
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR + MAIN CONTENT -->
+    <div class="row">
+        <div class="col product_section clearfix d-flex">
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar_section">
+                    <div class="sidebar_title">
+                        <h5>BỘ LỌC SẢN PHẨM</h5>
+                    </div>
+                    @Html.Action("MenuLeft", "Menu", new { id = ViewBag.CateId, manu = ViewBag.ManuName })
+                </div>
+
+                <div class="sidebar_title">
+                    <h5>Lọc theo giá</h5>
+                </div>
+
+                <p><input type="text" id="amount" readonly style="border:0;color:#f6931f;font-weight:bold;"></p>
+
+                <div id="slider-range"></div>
+
+                <input type="hidden" id="minValue" />
+                <input type="hidden" id="maxValue" />
+
+                <div class="filter_button" id="btnFilterPrice" style="cursor:pointer;">
+                    <span>Lọc</span>
+                </div>
+            </div>
+
+
+            <!-- Main content -->
+            <div class="main_content">
+
+                <div class="products_iso">
+                    <div class="row">
+                        <div class="col">
+
+                            <!-- SORT -->
+                            <div class="sorting_bar d-flex align-items-center mb-4">
+                                <span class="mr-2" style="font-weight:600;">Sắp xếp theo:</span>
+
+                                <select id="sortSelect" class="form-control" style="width:180px;display:inline-block;">
+                                    <option value="" @(Request["sort"] == null ? "selected" : "")>Mặc định</option>
+                                    <option value="name_asc" @(Request["sort"] == "name_asc" ? "selected" : "")>Tên (A→Z)</option>
+                                    <option value="name_desc" @(Request["sort"] == "name_desc" ? "selected" : "")>Tên (Z→A)</option>
+                                    <option value="price_asc" @(Request["sort"] == "price_asc" ? "selected" : "")>Giá tăng dần</option>
+                                    <option value="price_desc" @(Request["sort"] == "price_desc" ? "selected" : "")>Giá giảm dần</option>
+                                    <option value="newest" @(Request["sort"] == "newest" ? "selected" : "")>Mới nhất</option>
+                                </select>
+                            </div>
+
+                            <!-- PRODUCT GRID -->
+                            <div class="product-grid">
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        var img = item.ProductImage.FirstOrDefault(x => x.IsDefault);
+                                        var strImage = img != null ? img.Image : "";
+
+                                        <div class="product-item">
+                                            <div class="product discount product_filter">
+
+                                                <div class="product_image">
+                                                    <img src="@strImage" alt="@item.Title">
+                                                </div>
+
+                                                @if (item.PriceSale > 0)
+                                                {
+                                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center">
+                                                        <span>sale</span>
+                                                    </div>
+                                                }
+
+                                                <div class="product_info">
+                                                    <h6 class="product_name">
+                                                        <a href="/chi-tiet/@item.Alias-p@(item.Id)">
+                                                            @item.Title
+                                                        </a>
+                                                    </h6>
+
+                                                    @if (item.PriceSale > 0)
+                                                    {
+                                                        <div class="product_price">
+                                                            @GundamZoneProject.Common.Common.FormatNumber(item.PriceSale)
+                                                            <span>@GundamZoneProject.Common.Common.FormatNumber(item.Price)</span>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="product_price">
+                                                            @GundamZoneProject.Common.Common.FormatNumber(item.Price)
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <div class="red_button add_to_cart_button">
+                                                <a href="javascript:void(0)" class="btnAddToCart" data-id="@item.Id">Thêm vào giỏ hàng</a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Không có sản phẩm nào phù hợp.</p>
+                                }
+                            </div>
+
+                            <!-- PAGINATION -->
+                            <div class="pages d-flex flex-row align-items-center">
+                                <div class="row">
+                                    <div class="col-12" style="text-align:right;">
+                                        @Html.PagedListPager(
+                                            Model,
+                                            page => Url.Action("Index",
+                                                new
+                                                {
+                                                    page,
+                                                    sort = Request["sort"],
+                                                    minPrice = Request["minPrice"],
+                                                    maxPrice = Request["maxPrice"],
+                                                    cateId = ViewBag.CateId,
+                                                    manu = ViewBag.ManuName
+                                                })
+                                        )
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $('.btnAddToCart').off('click');
+            $('body').off('click', '.btnAddToCart');
+            $('body').off('click', '.add_to_cart_button a');
+
+            $('body').on('click', '.btnAddToCart', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/shoppingcart/addtocart',
+                    type: 'POST',
+                    data: { id: id, quantity: 1 },
+                    success: function (rs) {
+                        if (rs.Success) {
+                            $('#checkout_items').html(rs.Count);
+
+                            Swal.fire({
+                                title: "Thêm vào giỏ hàng!",
+                                text: rs.msg,
+                                icon: "success",
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        window.alert = function () { };
+        window.confirm = function () { return true; };
+    </script>
+
+    <script>
+        $("#sortSelect").change(function () {
+            let url = new URL(window.location.href);
+            url.searchParams.set("sort", $(this).val());
+            url.searchParams.set("page", 1);
+            window.location.href = url.toString();
+        });
+    </script>
+
+    <script>
+
+    function formatMoney(n) {
+        return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    $(function () {
+
+        let minP = @((ViewBag.MinPrice ?? 0));
+        let maxP = @((ViewBag.MaxPrice ?? 2000000));
+
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 2000000,
+            values: [minP, maxP],
+            slide: function (event, ui) {
+                $("#amount").val(formatMoney(ui.values[0]) + " đ - " + formatMoney(ui.values[1]) + " đ");
+            }
+        });
+
+        $("#amount").val(
+            formatMoney($("#slider-range").slider("values", 0)) +
+            " đ - " +
+            formatMoney($("#slider-range").slider("values", 1)) + " đ"
+        );
+
+        $("#btnFilterPrice").click(function () {
+            let minP = $("#slider-range").slider("values", 0);
+            let maxP = $("#slider-range").slider("values", 1);
+
+            let url = new URL(window.location.href);
+            url.searchParams.set("minPrice", minP);
+            url.searchParams.set("maxPrice", maxP);
+            url.searchParams.set("page", 1);
+
+            window.location.href = url.toString();
+        });
+    });
+    </script>
+
+}

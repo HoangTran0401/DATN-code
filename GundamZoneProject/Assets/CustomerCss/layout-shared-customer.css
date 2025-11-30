@@ -1,0 +1,73 @@
+﻿
+.logo-gundamzone {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    letter-spacing: 3px;
+    text-decoration: none !important;
+}
+
+.gundam-red {
+    color: #ff3b3b;
+    text-shadow: 0 0 8px rgba(255, 50, 50, 0.9), 0 0 15px rgba(255, 0, 0, 0.6);
+}
+
+.gundam-white {
+    color: #111 !important; /* buộc màu đen */
+    text-shadow: none !important;
+}
+
+
+.logo_container a:hover {
+    transform: scale(1.05);
+    transition: 0.25s;
+}
+
+.search-form {
+    position: relative;
+}
+
+.search-input {
+    height: 38px;
+    border: 2px solid #ddd;
+    padding: 5px 40px 5px 12px;
+    border-radius: 20px;
+    width: 180px;
+    transition: 0.3s ease-in-out;
+    font-size: 14px;
+}
+
+    .search-input:focus {
+        width: 260px;
+        border-color: #ff3b3b;
+        box-shadow: 0 0 10px rgba(255, 59, 59, 0.4);
+    }
+
+.btn-search {
+    background: none;
+    border: none;
+    color: #ff3b3b;
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+}
+
+.account_selection li a {
+    white-space: nowrap; /* Không cho xuống dòng */
+}
+
+.account_selection {
+    min-width: 180px !important; /* Nới rộng menu */
+}
+
+.swal2-container {
+    z-index: 999999 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+
+

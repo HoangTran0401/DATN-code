@@ -1,0 +1,81 @@
+﻿
+/* KHUNG LỚN BAO TOÀN BỘ PHẦN GIẢM GIÁ */
+.sale-block-wrapper {
+    padding: 15px 20px;
+    border: 2px solid #ff4b4b;
+    border-radius: 12px;
+    background: #fffafa;
+    max-width: 1110px;
+    margin: 25px auto;
+    box-shadow: 0 2px 8px rgba(255, 120, 120, 0.12);
+}
+
+.section_title.new_arrivals_title {
+    margin-top: 10px !important;
+}
+
+.product_slider_container {
+    margin-top: 10px;
+}
+
+
+/* Khung cho từng sản phẩm */
+.product-item {
+    width: 220px !important;
+    padding: 15px;
+    border: 1px solid #ffe0e0;
+    border-radius: 14px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(255, 140, 140, 0.08);
+    transition: 0.25s;
+}
+
+    /* Hiệu ứng hover */
+    .product-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 15px rgba(255, 100, 100, 0.25);
+    }
+
+    /* Giữ nút không bị che */
+    .product-item .add_to_cart_button {
+        margin-top: 10px;
+    }
+
+/* Khung item đảm bảo không che nút */
+.product-item {
+    width: 220px !important;
+    min-height: 50px; /* tăng chiều cao ở đây */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* đẩy nút xuống đáy mà không bị che */
+    padding-bottom: 50px;
+}
+
+.product_image img {
+    height: 150px;
+    width: 100%;
+    object-fit: contain;
+}
+
+.product_name a {
+    min-height: 40px;
+    max-height: 40px;
+    overflow: hidden;
+    display: block;
+}
+
+
+/* gạch ngang bên dưới */
+.section_title.new_arrivals_title h2:after {
+    content: "";
+    width: 360px;
+    height: 4px;
+    background: #ff4b4b;
+    display: block;
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+/* Ẩn gạch dưới mặc định của template */
+.section_title.new_arrivals_title::after {
+    display: none !important;
+}
